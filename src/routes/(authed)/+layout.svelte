@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { refreshAll } from "$app/navigation";
+  import { invalidate, refreshAll } from "$app/navigation";
   import { onMount } from "svelte";
   import icescape from "#lib/assets/images/Icescape.jpg";
   import NavBar from "#lib/components/NavBar.svelte";
@@ -30,7 +30,20 @@
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ timezone }),
-      }).catch(() => {});
+      })
+        .then(async (response) => {
+          const { stored, date } = (await response.json()) as {
+            stored?: boolean;
+            date?: string;
+          };
+          // The layout load above ran before this browser reported its zone, so
+          // the tile may be counting a different day's slot. Re-run it once the
+          // server holds the right one.
+          if (stored && date && date !== data.schedule.date) {
+            void invalidate("app:schedule").catch(() => {});
+          }
+        })
+        .catch(() => {});
     }
 
     // Pick up a countdown that a reload interrupted before the worker starts
