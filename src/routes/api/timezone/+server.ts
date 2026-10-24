@@ -1,5 +1,4 @@
 import { getDashboard, invalidateDashboard } from '#lib/server/dashboard.ts';
-import { localDate } from '#lib/server/time.ts';
 import type { RequestHandler } from './$types';
 
 /** Longer than any real IANA name, which keeps junk out of the column. */
@@ -52,11 +51,9 @@ function isMissingTimeZoneColumn(error: WriteError): boolean {
  * The layout posts this once per page load. An unchanged zone is not written
  * back, so the usual case costs one read and nothing else.
  *
- * Answers with `{ timezone, stored, date }`. `stored` is `false` when the zone could
+ * Answers with `{ timezone, stored }`. `stored` is `false` when the zone could
  * not be written — a database without the column yet — which the caller can
  * ignore, since the app runs without a stored zone by using the server's day.
- * `date` is the reader's day in that zone, so the caller can tell whether the
- * page it just loaded was rendered for a different one.
  * A fault it *cannot* carry on past is still a 500.
  */
 export const POST: RequestHandler = async ({ request, locals }) => {
@@ -77,7 +74,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 	}
 
 	if (record.timezone === timezone) {
-		return Response.json({ timezone, stored: true, date: localDate(timezone) });
+		return Response.json({ timezone, stored: true });
 	}
 
 	const { error: writeError } = await locals.supabase
@@ -101,5 +98,5 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 	// The account's cached row still carries the old zone.
 	await invalidateDashboard(locals);
 
-	return Response.json({ timezone, stored: true, date: localDate(timezone) });
+	return Response.json({ timezone, stored: true });
 };

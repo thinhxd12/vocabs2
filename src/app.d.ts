@@ -6,6 +6,9 @@ declare global {
 		// interface Error {}
 		interface Locals {
 			supabase: SupabaseClient;
+			/** The reader's IANA zone, as their browser last reported it in the
+			 *  `timezone` cookie. `null` until that browser has reported one. */
+			timeZone: string | null;
 			safeGetClaims: () => Promise<{
 				claims: JwtPayload | null;
 				error: AuthError | null;

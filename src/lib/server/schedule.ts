@@ -35,8 +35,11 @@ export type TodaySchedule = {
 	count: number | null;
 };
 
-/** The reader's day, in the zone their browser last reported. */
+/** The reader's day: the zone their browser reported, or the one on their
+ *  account when that browser has never reported one. */
 export async function readerToday(locals: App.Locals) {
+	if (locals.timeZone) return localDate(locals.timeZone);
+
 	const { record } = await getDashboard(locals);
 	return localDate(record?.timezone);
 }

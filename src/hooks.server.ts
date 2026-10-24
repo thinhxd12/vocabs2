@@ -19,6 +19,17 @@ export const handle: Handle = async ({ event, resolve }) => {
 	});
 
 	/**
+	 * The reader's own zone, straight off the request. It is a cookie the browser
+	 * sets for itself (`(authed)/+layout.svelte`), so it is readable before any
+	 * load or action runs — unlike the copy in `dashboard_table`, which costs a
+	 * query and lags a serverless instance behind the write.
+	 *
+	 * Never trusted: `localDate` (`#lib/server/time.ts`) falls back to the
+	 * server's day for anything `Intl` does not recognise.
+	 */
+	event.locals.timeZone = event.cookies.get('timezone') ?? null;
+
+	/**
 	 * Unlike `supabase.auth.getSession()`, which returns the session _without_
 	 * validating the JWT, this function also asks the Supabase Auth server to
 	 * validate the JWT before returning it, so the returned user can be trusted.

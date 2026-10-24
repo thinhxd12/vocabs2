@@ -4,8 +4,9 @@
  * `schedule_table.date` is a plain day, and the only "today" that means anything
  * is the reader's: a server on UTC rolls the day over eight hours away from
  * someone in Tokyo, so the reviews they save would be counted against the wrong
- * day's rows. The reader's zone is reported by their browser and stored against
- * the account (see `/api/timezone`), then read back here.
+ * day's rows. The reader's zone comes off the `timezone` cookie their browser
+ * sets for itself (read in `hooks.server.ts`), with the copy kept on the account
+ * by `/api/timezone` as the fallback for a client that has never reported one.
  *
  * The zone is only ever an optimisation for the reader's convenience — a missing
  * or unrecognised one falls back to the server's, which is what every page did

@@ -8,42 +8,38 @@
     stopCountdown,
     syncCountdown,
   } from "#lib/store/countdown.svelte.ts";
-  import { pomodoro, syncTimer } from "#lib/store/pomodoro.svelte.ts";
+  import { pomodoro, syncTimer, todayISO } from "#lib/store/pomodoro.svelte.ts";
   import { registerFocusRecorder } from "#lib/store/pomodoro-db.ts";
   import type { LayoutProps } from "./$types";
 
   let { children, data }: LayoutProps = $props();
 
   /**
-   * Hands the browser's own zone to the server, which stores it against the
-   * account and reads it back whenever it has to compare against a date in the
-   * database — `schedule_table.date` is a day, and the day that counts is the
-   * reader's, not the server's.
+   * Hands the browser's own zone to the server. The `timezone` cookie is what
+   * the server reads (`hooks.server.ts` → `locals.timeZone`), so it is the copy
+   * that decides which day "today" is; the POST is only the durable one, for
+   * this browser's later sessions and other clients.
    *
-   * Once per page load: the endpoint ignores a zone it already holds, and a
-   * failed sync only leaves the previously stored one in place.
+   * Once per page load. A serverless host runs on UTC, so the layout load above
+   * may have resolved the day eight hours off: when the browser's own day
+   * disagrees with the tile's, the schedule counter is read again — this time
+   * with the cookie in the request.
    */
   onMount(() => {
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     if (timezone) {
+      // Readable client-side by design; a cookie the server writes could not be.
+      document.cookie = `timezone=${timezone}; path=/; max-age=31536000; samesite=lax`;
+
       void fetch("/api/timezone", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ timezone }),
-      })
-        .then(async (response) => {
-          const { stored, date } = (await response.json()) as {
-            stored?: boolean;
-            date?: string;
-          };
-          // The layout load above ran before this browser reported its zone, so
-          // the tile may be counting a different day's slot. Re-run it once the
-          // server holds the right one.
-          if (stored && date && date !== data.schedule.date) {
-            void invalidate("app:schedule").catch(() => {});
-          }
-        })
-        .catch(() => {});
+      }).catch(() => {});
+
+      if (todayISO() !== data.schedule.date) {
+        void invalidate("app:schedule").catch(() => {});
+      }
     }
 
     // Pick up a countdown that a reload interrupted before the worker starts

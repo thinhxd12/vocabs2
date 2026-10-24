@@ -76,7 +76,7 @@ export const load: PageServerLoad = async ({ url, locals }) => {
 	// Newest first: page 1 is the latest days, so a fresh row lands where the
 	// reader is already looking.
 	const offset = (page - 1) * PAGE_SIZE;
-	const format = stamper(record?.timezone ?? null);
+	const format = stamper(locals.timeZone ?? record?.timezone ?? null);
 
 	// Stamped here, in the reader's zone, so SSR and hydration agree and a
 	// server on UTC cannot shift a late-evening row onto the next day.
