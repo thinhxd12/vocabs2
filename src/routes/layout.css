@@ -1,0 +1,232 @@
+@import 'tailwindcss';
+@import '../lib/assets/fonts/fonts.css';
+
+/* Automatic detection also scans data files under .opencode; only app source
+   should contribute classes. */
+@source not '../../.opencode/**';
+
+@theme {
+	/* 1 spacing unit = 1px (ported design config). Classes are written 4× the
+	   old rem numbers, so p-16 = 16px and the layout is unchanged. */
+	--spacing: 1px;
+
+	--font-sans: 'SF Pro Display', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+	--font-serif: 'Roslindale Display', ui-serif, Georgia, 'Times New Roman', serif;
+	--font-sfpro: 'SF Pro Display', ui-sans-serif, system-ui, sans-serif;
+	--font-opensans: 'Open Sans', ui-sans-serif, system-ui, sans-serif;
+	--font-roslindale: 'Roslindale Display', ui-serif, Georgia, 'Times New Roman', serif;
+	--font-constantine: 'Constantine', ui-serif, Georgia, 'Times New Roman', serif;
+	--font-basier: 'Basier Square', ui-sans-serif, system-ui, sans-serif;
+	--font-helvetica: 'Helvetica Neue Condensed', 'Helvetica Neue', ui-sans-serif, sans-serif;
+	--font-garamond: 'Garamond Premier Pro', ui-serif, Georgia, serif;
+	--font-copernicus: 'Galaxie Copernicus', ui-serif, Georgia, serif;
+	--font-proxima: 'Proxima Nova', ui-sans-serif, system-ui, sans-serif;
+	--font-bookerly: 'Bookerly', ui-serif, Georgia, serif;
+	--font-rubik: 'Rubik', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+	--font-tupa: 'Tupa Nova', ui-sans-serif, system-ui, sans-serif;
+
+	/* The px type sizes the app actually uses, so text-13 beats text-[13px]. */
+	--text-7: 7px;
+	--text-7\.5: 7.5px;
+	--text-8: 8px;
+	--text-9: 9px;
+	--text-9\.5: 9.5px;
+	--text-10: 10px;
+	--text-10\.5: 10.5px;
+	--text-11: 11px;
+	--text-11\.5: 11.5px;
+	--text-12: 12px;
+	--text-12\.5: 12.5px;
+	--text-13: 13px;
+	--text-14: 14px;
+	--text-15: 15px;
+	--text-16: 16px;
+	--text-17: 17px;
+	--text-24: 24px;
+	--text-26: 26px;
+	--text-30: 30px;
+	--text-32: 32px;
+	--text-36: 36px;
+	--text-40: 40px;
+	--text-100: 100px;
+
+	--color-secondary-white: #f1f1f1;
+
+	/* No named radius steps: every radius is a pixel integer (`rounded-2`), so
+	   the editor never suggests a preset like `rounded-xs` instead. */
+	--radius-*: initial;
+
+	--font-weight-100: 100;
+	--font-weight-200: 200;
+	--font-weight-300: 300;
+	--font-weight-400: 400;
+	--font-weight-500: 500;
+	--font-weight-600: 600;
+	--font-weight-700: 700;
+	--font-weight-800: 800;
+	--font-weight-900: 900;
+
+	/* The navbar's weather description: three copies of the line scroll left
+	   by exactly one copy, so the loop is seamless at any width. */
+	--animate-marquee: marquee 8s linear infinite;
+
+	@keyframes marquee {
+		from {
+			transform: translateX(0);
+		}
+		to {
+			transform: translateX(-33.3333%);
+		}
+	}
+}
+
+/* The app is dark-only: paint the shell dark before hydration so there is no
+   white flash on first paint, and let native controls follow the dark scheme. */
+@layer base {
+	html {
+		color-scheme: dark;
+		background-color: #020617;
+	}
+
+	body {
+		background-color: #020617;
+		color: #e2e8f0;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	::selection {
+		background-color: rgb(52 211 153 / 0.35);
+		color: #fff;
+	}
+}
+
+/* Radius steps 1px, matching the spacing scale: `rounded-4` = 4px. Named
+   presets are removed above; `rounded-full` and `rounded-none` are static. */
+@utility rounded-* {
+	border-radius: calc(--value(integer) * 1px);
+}
+
+@utility rounded-t-* {
+	border-top-left-radius: calc(--value(integer) * 1px);
+	border-top-right-radius: calc(--value(integer) * 1px);
+}
+
+@utility rounded-r-* {
+	border-top-right-radius: calc(--value(integer) * 1px);
+	border-bottom-right-radius: calc(--value(integer) * 1px);
+}
+
+@utility rounded-b-* {
+	border-bottom-left-radius: calc(--value(integer) * 1px);
+	border-bottom-right-radius: calc(--value(integer) * 1px);
+}
+
+@utility rounded-l-* {
+	border-top-left-radius: calc(--value(integer) * 1px);
+	border-bottom-left-radius: calc(--value(integer) * 1px);
+}
+
+@utility rounded-tl-* {
+	border-top-left-radius: calc(--value(integer) * 1px);
+}
+
+@utility rounded-tr-* {
+	border-top-right-radius: calc(--value(integer) * 1px);
+}
+
+@utility rounded-br-* {
+	border-bottom-right-radius: calc(--value(integer) * 1px);
+}
+
+@utility rounded-bl-* {
+	border-bottom-left-radius: calc(--value(integer) * 1px);
+}
+
+/* Hides the scrollbar while keeping the element scrollable (content still
+   scrolls by wheel, trackpad, touch and keyboard). */
+@utility no-scrollbar {
+	scrollbar-width: none; /* Firefox */
+	-ms-overflow-style: none; /* legacy Edge / IE */
+	&::-webkit-scrollbar {
+		display: none; /* Chrome, Safari, Edge */
+	}
+}
+
+@utility glass-input {
+	color: #fff;
+	background-color: rgb(0 0 0 / 0.5);
+	background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.2'/%3E%3C/svg%3E");
+	backdrop-filter: blur(9px);
+	-webkit-backdrop-filter: blur(9px);
+}
+
+/* Printed-grain overlay for the review buttons: layers over whatever
+   background colour the element already sets. */
+@utility glass-noise {
+	background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E");
+}
+
+/* The highlight reader's page type. Kept global because the page measures text
+   in a node appended to <body> to split a highlight into printed pages. */
+.highlightContent {
+	font-family: 'Bookerly', serif;
+	font-weight: 400;
+	font-size: 15px;
+	line-height: 1.5;
+	color: #1e1915;
+	overflow: hidden;
+}
+
+.highlightContent::selection {
+	background-color: #fef135;
+	color: #1e1915;
+}
+
+.highlightContent p {
+	text-indent: 1.5rem;
+}
+
+.highlightContent cite {
+	display: block;
+	text-align: right;
+}
+
+.highlightContentFirstPage::first-letter {
+	float: left;
+	padding: 12px;
+	margin: 6px 6px 0 3px;
+	border: 2px solid #000;
+	background: url('../lib/assets/images/Vincent_van_Gogh_The_Sower_1888.webp') bottom center /
+		cover no-repeat;
+	font-family: 'Baskervville', serif;
+	font-weight: 600;
+	font-size: 133px;
+	line-height: 1.5;
+	color: #f0f0f0;
+	text-shadow: 0 6px 9px rgb(0 0 0);
+	box-shadow:
+		0 3px 5px rgb(0 0 0),
+		inset 0 6px 9px rgb(0 0 0);
+}
+
+@supports (initial-letter: 5) or (-webkit-initial-letter: 5) {
+	.highlightContentFirstPage::first-letter {
+		initial-letter: 5;
+		-webkit-initial-letter: 5;
+
+		float: none;
+		font-size: inherit;
+		line-height: inherit;
+		margin: 12px 6px 0 0;
+	}
+}
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+	-webkit-transition: background-color 600000s 0s, color 600000s 0s;
+	transition: background-color 600000s 0s, color 600000s 0s;
+	-webkit-text-fill-color: #fff !important;
+}
