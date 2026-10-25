@@ -21,7 +21,7 @@
   const CHART_PAD_BOTTOM = 12;
 
   const CARD =
-    "rounded-16 border border-white/10 bg-black/40 backdrop-blur-sm";
+    "rounded-2 border border-white/10 bg-black/40 backdrop-blur-sm";
 
   // Selectable weather forecast models. `value` is what we persist to
   // `dashboard_table.currentForecastModel`.
@@ -170,10 +170,10 @@
 </script>
 
 <svelte:head>
-  <title>Dashboard</title>
+  <title>dashboard</title>
 </svelte:head>
 
-<section class="mx-auto w-full max-w-378 space-y-8">
+<section class="mx-auto w-full max-w-378 space-y-2">
   <header class="space-y-4 flex justify-between items-center">
     <h1
       class="text-3xl font-bold text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.6)]"
@@ -211,7 +211,7 @@
           onclick={() => (showForm ? closeForm() : openForm())}
           aria-expanded={showForm}
           aria-controls="add-progress-form"
-          class="inline-flex shrink-0 cursor-pointer items-center gap-4 rounded-full border px-10 py-4 text-11 font-medium transition-colors {showForm
+          class="inline-flex shrink-0 cursor-pointer items-center gap-4 rounded-2 border px-10 py-4 text-11 font-medium transition-colors {showForm
             ? 'border-white/15 bg-white/10 text-white'
             : 'border-emerald-300/25 bg-emerald-400/15 text-emerald-100 hover:bg-emerald-400/25'}"
         >
@@ -242,7 +242,7 @@
               await update();
             };
           }}
-          class="mt-12 space-y-10 rounded-8 border border-white/10 bg-black/20 p-10"
+          class="mt-12 space-y-10 rounded-2 border border-white/10 bg-black/20 p-10"
         >
           <div class="grid grid-cols-[1.4fr_1fr] gap-8">
             <label class="block min-w-0">
@@ -306,7 +306,7 @@
             <button
               type="submit"
               disabled={saving}
-              class="inline-flex h-28 cursor-pointer items-center gap-6 rounded-6 bg-emerald-500 px-18 text-xs font-semibold text-white transition-colors hover:bg-emerald-400 active:scale-97 disabled:cursor-not-allowed disabled:opacity-60"
+              class="inline-flex h-28 cursor-pointer items-center gap-6 rounded-2 bg-emerald-500 px-18 text-xs font-semibold text-white transition-colors hover:bg-emerald-400 active:scale-97 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {#if saving}
                 <IconSpinner class="size-14" aria-hidden="true" />
@@ -320,7 +320,7 @@
             <button
               type="button"
               onclick={closeForm}
-              class="h-28 cursor-pointer rounded-6 px-14 text-xs font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
+              class="h-28 cursor-pointer rounded-2 px-14 text-xs font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
             >
               Cancel
             </button>
@@ -446,7 +446,7 @@
             showLocationForm ? closeLocationForm() : openLocationForm()}
           aria-expanded={showLocationForm}
           aria-controls="add-location-form"
-          class="inline-flex shrink-0 cursor-pointer items-center gap-4 rounded-full border px-10 py-4 text-11 font-medium transition-colors {showLocationForm
+          class="inline-flex shrink-0 cursor-pointer items-center gap-4 rounded-2 border px-10 py-4 text-11 font-medium transition-colors {showLocationForm
             ? 'border-white/15 bg-white/10 text-white'
             : 'border-emerald-300/25 bg-emerald-400/15 text-emerald-100 hover:bg-emerald-400/25'}"
         >
@@ -478,7 +478,7 @@
               await update();
             };
           }}
-          class="mt-12 space-y-10 rounded-8 border border-white/10 bg-black/20 p-10"
+          class="mt-12 space-y-10 rounded-2 border border-white/10 bg-black/20 p-10"
         >
           <label class="block min-w-0">
             <span
@@ -554,7 +554,7 @@
             <button
               type="submit"
               disabled={savingLocation}
-              class="inline-flex h-28 cursor-pointer items-center gap-6 rounded-6 bg-emerald-500 px-18 text-xs font-semibold text-white transition-colors hover:bg-emerald-400 active:scale-97 disabled:cursor-not-allowed disabled:opacity-60"
+              class="inline-flex h-28 cursor-pointer items-center gap-6 rounded-2 bg-emerald-500 px-18 text-xs font-semibold text-white transition-colors hover:bg-emerald-400 active:scale-97 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {#if savingLocation}
                 <IconSpinner class="size-14" aria-hidden="true" />
@@ -568,7 +568,7 @@
             <button
               type="button"
               onclick={closeLocationForm}
-              class="h-28 cursor-pointer rounded-6 px-14 text-xs font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
+              class="h-28 cursor-pointer rounded-2 px-14 text-xs font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
             >
               Cancel
             </button>
@@ -592,7 +592,7 @@
             {@const isCurrent = location.id === currentLocationId}
             {@const isBusy = busyLocationId === location.id}
             <li
-              class="flex items-center gap-4 rounded-12 p-4 {isCurrent
+              class="flex items-center gap-4 rounded-2 p-4 {isCurrent
                 ? 'bg-emerald-400/15 ring-1 ring-emerald-400/40 ring-inset'
                 : 'bg-white/5'}"
             >
@@ -613,7 +613,7 @@
                   type="submit"
                   aria-pressed={isCurrent}
                   aria-label="Set {location.name} as current location"
-                  class="flex w-full items-center gap-12 rounded-8 px-8 py-6 text-left transition-colors {isCurrent
+                  class="flex w-full items-center gap-12 rounded-2 px-8 py-6 text-left transition-colors {isCurrent
                     ? 'cursor-default'
                     : 'cursor-pointer hover:bg-white/5'}"
                 >
@@ -672,7 +672,7 @@
                   type="submit"
                   disabled={isBusy}
                   aria-label="Delete {location.name}"
-                  class="flex size-32 shrink-0 cursor-pointer items-center justify-center rounded-8 text-slate-400 transition-colors hover:bg-rose-400/15 hover:text-rose-200 disabled:cursor-not-allowed disabled:opacity-50"
+                  class="flex size-32 shrink-0 cursor-pointer items-center justify-center rounded-2 text-slate-400 transition-colors hover:bg-rose-400/15 hover:text-rose-200 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <IconTrash class="size-16" aria-hidden="true" />
                 </button>
@@ -725,7 +725,7 @@
           {#each modelList as model (model.value)}
             {@const isActive = model.value === forecastModel}
             <label
-              class="flex cursor-pointer items-center gap-8 rounded-8 px-10 py-6 text-xs font-medium transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-emerald-400/50 {isActive
+              class="flex cursor-pointer items-center gap-8 rounded-2 px-10 py-6 text-xs font-medium transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-emerald-400/50 {isActive
                 ? 'bg-emerald-400/15 text-white ring-1 ring-emerald-400/40 ring-inset'
                 : 'bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white'}"
             >

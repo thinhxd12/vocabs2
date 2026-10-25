@@ -238,7 +238,7 @@
 </script>
 
 <svelte:head>
-  <title>Diary</title>
+  <title>diary</title>
 </svelte:head>
 
 <section class="mx-auto w-full max-w-378 space-y-8 py-8">

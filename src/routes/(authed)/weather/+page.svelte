@@ -238,6 +238,7 @@
         directionLabel: getWindDirection(direction),
         speed: Math.round(current.wind_speed_10m || 0),
         gusts: Math.round(current.wind_gusts_10m || 0),
+        level: windInfo.level,
         description: windInfo.description,
       },
       precipitation: {
@@ -533,7 +534,7 @@
         <div class="{CARD} aspect-square">
           <p class={LABEL}>Wind</p>
           <div class="flex flex-1 items-center gap-6">
-            <div class="relative size-80 shrink-0" aria-hidden="true">
+            <div class="relative size-64 shrink-0" aria-hidden="true">
               <svg
                 viewBox="0 0 120 120"
                 fill="none"
@@ -595,6 +596,16 @@
               </p>
             </div>
           </div>
+
+          <div class="mt-4 h-36 w-full shrink-0 overflow-hidden rounded-2 bg-white">
+            <img
+              src="/beaufort-scale/{wx.wind.level}.png"
+              alt=""
+              aria-hidden="true"
+              class="size-full object-contain"
+            />
+          </div>
+
           <p class="mt-4 text-9.5 leading-snug text-white/55">
             {wx.wind.description}
           </p>

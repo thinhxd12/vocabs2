@@ -40,7 +40,7 @@
 </script>
 
 <svelte:head>
-  <title>Sad days</title>
+  <title>sad days</title>
 </svelte:head>
 
 <!-- Nine rows fit a phone without scrolling; the list still grows to fill the

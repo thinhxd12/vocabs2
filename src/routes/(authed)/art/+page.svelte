@@ -37,7 +37,7 @@
 </script>
 
 <svelte:head>
-  <title>{art.image.title} · Daily Art</title>
+  <title>{art.image.title} art</title>
   <meta
     name="description"
     content="A painting a day from DailyArt, with the magazine's notes on the artist and the work."

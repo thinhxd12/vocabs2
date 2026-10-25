@@ -1,3 +1,3 @@
 <svelte:head>
-  <title>Vocabs</title>
+  <title>vocabs</title>
 </svelte:head>

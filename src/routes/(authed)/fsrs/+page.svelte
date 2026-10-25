@@ -11,6 +11,7 @@
   import Toaster from "#lib/components/Toaster.svelte";
   import { addToast } from "#lib/store/toast.svelte.ts";
   import { reviewProgress } from "#lib/store/review-progress.svelte.ts";
+  import { BTN, BTN_ON } from "#lib/ui/button.ts";
   import {
     encodeSession,
     SESSION_COOKIE,
@@ -400,19 +401,19 @@
     return true;
   }
 
-  /** A cell of the toolbar strip: squared off, brighter on hover, and a compact
-   *  32px tall so the 540px medallion plus its chrome fits a laptop viewport
-   *  without scrolling. 32px is still above the 24px WCAG web target. */
-  const ICON_BTN =
-    "inline-flex size-32 shrink-0 touch-manipulation items-center justify-center text-slate-300 transition-colors duration-200 hover:bg-white/10 hover:text-white focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-emerald-300 motion-reduce:transition-none";
+  /** The app's button (`#lib/ui/button.ts`) at the navbar's own cell size, so
+   *  the review page and the dock are the same object. */
+  const TILE = `${BTN} h-16 w-18`;
+  const TILE_ON = `${BTN_ON} h-16 w-18`;
 
-  /** The batch size, read out between two hairlines instead of boxed in. */
+  /** The batch size: the same tile as the button beside it, so the strip reads
+   *  as one group. Spinners are hidden — two digits and a keyboard are enough. */
   const NUMBER_INPUT =
-    "h-32 w-60 shrink-0 border-l border-white/10 bg-transparent text-center font-rubik text-13 text-slate-100 tabular-nums outline-0";
+    "h-16 w-30 shrink-0 cursor-text rounded-2 bg-white/25 text-center font-rubik text-11 text-black tabular-nums shadow-[0_1px_2px_rgba(2,6,23,0.3)] outline-hidden transition-[color,background-color,box-shadow] duration-150 hover:bg-white/45 hover:shadow-[0_2px_6px_rgba(2,6,23,0.35)] focus:bg-white/45 focus:shadow-[0_2px_6px_rgba(2,6,23,0.35)] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [appearance:textfield]";
 </script>
 
 <svelte:head>
-  <title>Review · FSRS</title>
+  <title>review · FSRS</title>
 </svelte:head>
 
 <svelte:window onkeydown={onKeyDown} />
@@ -432,55 +433,39 @@
     : 'justify-center'}"
   style="--width: min(92vw, 540px);"
 >
-  <!-- Toolbar: the medallion's opposite — a quiet strip of dark chrome rather
-       than another plate of its metal, so the circle stays the only gold on the
-       page. The cells are divided by hairlines of the same glass. -->
-  <div
-    class="w-full max-w-382 mt-2 overflow-hidden rounded-2 border border-white/10 bg-black/45 shadow-[0_4px_18px_rgba(0,0,0,0.45)] backdrop-blur-md"
-  >
-    <div class="flex items-center">
-      <!-- A new batch is asked for here, so the batch in progress is forgotten
-           before the GET runs: its session cookie is what the page server would
-           otherwise resume. `clearSession` runs on the form's own submit, ahead
-           of SvelteKit's handler. -->
-      <form method="GET" class="flex items-center" onsubmit={clearSession}>
-        <button
-          type="submit"
-          aria-label="Start a new batch"
-          title="Start a new batch"
-          class={ICON_BTN}
-        >
-          <PhListStar class="size-16" aria-hidden="true" />
-        </button>
+  <!-- Toolbar: the same tiles as the navbar and `/pomodoro`, on nothing but the
+       page. The batch's progress is the navbar's sunrise gauge, so the middle is
+       left empty. -->
+  <div class="mt-2 flex w-full max-w-382 items-center justify-between gap-3">
+    <!-- A new batch is asked for here, so the batch in progress is forgotten
+         before the GET runs: its session cookie is what the page server would
+         otherwise resume. `clearSession` runs on the form's own submit, ahead
+         of SvelteKit's handler. -->
+    <form method="GET" class="flex items-center gap-3" onsubmit={clearSession}>
+      <button
+        type="submit"
+        aria-label="Start a new batch"
+        title="Start a new batch"
+        class={TILE}
+      >
+        <PhListStar class="size-14" aria-hidden="true" />
+      </button>
 
-        <input
-          name="n"
-          type="number"
-          min={MIN_BATCH}
-          max={MAX_BATCH}
-          step="1"
-          inputmode="numeric"
-          value={data.batch}
-          oninput={onBatchInput}
-          aria-label="Cards per batch"
-          class={NUMBER_INPUT}
-        />
-      </form>
+      <input
+        name="n"
+        type="number"
+        min={MIN_BATCH}
+        max={MAX_BATCH}
+        step="1"
+        inputmode="numeric"
+        value={data.batch}
+        oninput={onBatchInput}
+        aria-label="Cards per batch"
+        class={NUMBER_INPUT}
+      />
+    </form>
 
-      {#if cards.length > 0}
-        <!-- Batch progress: the gauge is the navbar's sunrise tile now; the
-             count stays here, in the elastic middle of the strip. -->
-        <div
-          class="flex min-w-0 flex-1 items-center justify-center border-l border-white/10 px-12"
-        >
-          <span class="shrink-0 font-rubik text-10 text-slate-300 tabular-nums">
-            {learned}/{total}
-          </span>
-        </div>
-      {:else}
-        <div class="flex-1"></div>
-      {/if}
-
+    <div class="flex items-center gap-3">
       <!-- Always available, even when nothing is due: adding a word is how an
            empty batch gets filled next time. -->
       <button
@@ -488,9 +473,9 @@
         onclick={() => (showAdd = true)}
         aria-label="Add a word to review"
         title="Add a word"
-        class="{ICON_BTN} border-l border-white/10"
+        class={TILE}
       >
-        <IconPlus class="size-16" aria-hidden="true" />
+        <IconPlus class="size-14" aria-hidden="true" />
       </button>
 
       {#if card}
@@ -500,11 +485,9 @@
           aria-pressed={showTranslate}
           aria-label="Show translation"
           title="Translate (space)"
-          class="{ICON_BTN} border-l border-white/10 {showTranslate
-            ? 'bg-white/10 text-white shadow-[inset_0_-2px_0_rgba(255,255,255,0.4)]'
-            : ''}"
+          class={showTranslate ? TILE_ON : TILE}
         >
-          <BiTranslate class="size-16" aria-hidden="true" />
+          <BiTranslate class="size-14" aria-hidden="true" />
         </button>
 
         <button
@@ -512,9 +495,9 @@
           onclick={playSpeech}
           aria-label="Play pronunciation"
           title="Pronounce"
-          class="{ICON_BTN} border-l border-white/10"
+          class={TILE}
         >
-          <MaterialSymbolsVolumeUpRounded class="size-16" aria-hidden="true" />
+          <MaterialSymbolsVolumeUpRounded class="size-14" aria-hidden="true" />
         </button>
       {/if}
     </div>

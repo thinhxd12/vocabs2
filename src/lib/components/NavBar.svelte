@@ -8,6 +8,7 @@
   import sunrise from "#lib/assets/images/sunrise.webp";
   import sunset from "#lib/assets/images/sunset.webp";
   import { reviewProgress } from "#lib/store/review-progress.svelte.ts";
+  import { BTN, BTN_ON } from "#lib/ui/button.ts";
   import {
     countdown,
     QUICK_TIMER_MINUTES,
@@ -26,7 +27,6 @@
   import SimpleIconsAnki from "~icons/simple-icons/anki";
   import RiAlarmLine from "~icons/ri/alarm-line";
   import MaterialSymbolsFeatureSearchOutline from "~icons/material-symbols/feature-search-outline";
-  import StreamlinePlumpFeatherPenSolid from "~icons/streamline-plump/feather-pen-solid";
 
   /** Two rows: the bar is capped at 384px and the two 90px tiles take half. */
   const primary = [
@@ -44,7 +44,6 @@
   ];
   const secondary = [
     { href: "/highlights", label: "Highlight", icon: BxsBookBookmark },
-    { href: "/diary", label: "Diary", icon: StreamlinePlumpFeatherPenSolid },
     { href: "/art", label: "Art", icon: GravityUiFrames },
     { href: "/sad", label: "Sad days", icon: SolarSadSquareOutline },
     { href: "/fsrs", label: "Review", icon: SimpleIconsAnki },
@@ -236,9 +235,7 @@
             title={item.label}
             aria-label={item.label}
             aria-current={active ? "page" : undefined}
-            class="flex h-16 w-18 items-center justify-center rounded-2 transition-colors duration-150 outline-offset-1 focus-visible:outline-2 focus-visible:outline-emerald-300 active:scale-95 motion-reduce:transition-none motion-reduce:active:scale-100 {active
-              ? 'bg-white/40 text-black'
-              : 'text-black/60 bg-white/20 hover:bg-white/40 hover:text-black'}"
+            class={`${active ? BTN_ON : BTN} h-16 w-18`}
           >
             <Icon class="size-14 shrink-0" aria-hidden="true" />
           </a>
@@ -255,9 +252,9 @@
           aria-label={countdownRunning
             ? `${countdownText} left. Stop the timer`
             : `Start a ${QUICK_TIMER_MINUTES} minute timer`}
-          class="group cursor-pointer relative flex h-16 min-w-18 shrink-0 touch-manipulation items-center justify-center rounded-2 transition-colors duration-150 outline-offset-1 focus-visible:outline-2 focus-visible:outline-emerald-300 active:scale-95 motion-reduce:transition-none motion-reduce:active:scale-100 {countdownRunning
-            ? 'bg-black text-white min-w-36'
-            : 'bg-white/20 hover:bg-white/40 text-black/60'}"
+          class={`${BTN} group relative h-16 min-w-18 ${countdownRunning
+            ? "min-w-36 !bg-black !text-white !shadow-none"
+            : ""}`}
         >
           {#if countdownRunning}
             <span
@@ -287,9 +284,7 @@
             title={item.label}
             aria-label={item.label}
             aria-current={active ? "page" : undefined}
-            class="flex h-16 w-18 items-center justify-center rounded-2 transition-colors duration-150 outline-offset-1 focus-visible:outline-2 focus-visible:outline-emerald-300 active:scale-95 motion-reduce:transition-none motion-reduce:active:scale-100 {active
-              ? 'bg-white/40 text-black'
-              : 'text-black/60 bg-white/20 hover:bg-white/40 hover:text-black'}"
+            class={`${active ? BTN_ON : BTN} h-16 w-18`}
           >
             <Icon class="size-14 shrink-0" aria-hidden="true" />
           </a>
@@ -312,7 +307,7 @@
             title={signingOut ? "Signing out" : "Sign out"}
             aria-label={signingOut ? "Signing out" : "Sign out"}
             aria-busy={signingOut}
-            class="flex h-16 w-18 shrink-0 bg-white/20 rounded-2 cursor-pointer items-center justify-center transition-colors duration-150 outline-offset-1 hover:bg-white/40 hover:text-white focus-visible:outline-2 focus-visible:outline-emerald-300 active:scale-95 disabled:opacity-60 motion-reduce:transition-none motion-reduce:active:scale-100"
+            class={`${BTN} h-16 w-18`}
           >
             {#if signingOut}
               <IconSpinner
@@ -321,7 +316,7 @@
               />
             {:else}
               <MajesticonsUnlockOpenLine
-                class="size-14 shrink-0 text-black/60 hover:text-black"
+                class="size-14 shrink-0"
                 aria-hidden="true"
               />
             {/if}

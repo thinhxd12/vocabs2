@@ -64,7 +64,11 @@ export const load: PageServerLoad = async ({ url, locals }) => {
 
 	const stamps: string[] = (read.data ?? []).map((row) => row.created_at);
 	const total = stamps.length;
-	const pageCount = Math.max(1, Math.ceil(total / PAGE_SIZE));
+
+	// The short page is the first one, so every later page — the last included —
+	// holds a full PAGE_SIZE. Page 1 still starts at the newest day.
+	const head = total % PAGE_SIZE || PAGE_SIZE;
+	const pageCount = total === 0 ? 1 : 1 + Math.ceil((total - head) / PAGE_SIZE);
 
 	// A stale or hand-typed `?page=` past the end lands on the last page.
 	if (page > pageCount) {
@@ -74,23 +78,28 @@ export const load: PageServerLoad = async ({ url, locals }) => {
 	}
 
 	// Newest first: page 1 is the latest days, so a fresh row lands where the
-	// reader is already looking.
-	const offset = (page - 1) * PAGE_SIZE;
+	// reader is already looking. Each page then reads oldest → newest, so the
+	// times run down the list the way a day runs.
+	const size = page === 1 ? head : PAGE_SIZE;
+	const offset = page === 1 ? 0 : head + (page - 2) * PAGE_SIZE;
 	const format = stamper(locals.timeZone ?? record?.timezone ?? null);
 
 	// Stamped here, in the reader's zone, so SSR and hydration agree and a
 	// server on UTC cannot shift a late-evening row onto the next day.
-	const rows: SadDay[] = stamps.slice(offset, offset + PAGE_SIZE).map((created_at) => {
-		const at = new Date(created_at);
-		if (Number.isNaN(at.getTime())) return { created_at, date: '', time: '' };
+	const rows: SadDay[] = stamps
+		.slice(offset, offset + size)
+		.reverse()
+		.map((created_at) => {
+			const at = new Date(created_at);
+			if (Number.isNaN(at.getTime())) return { created_at, date: '', time: '' };
 
-		const parts = format.formatToParts(at);
-		return {
-			created_at,
-			date: `${part(parts, 'year')}-${part(parts, 'month')}-${part(parts, 'day')}`,
-			time: `${part(parts, 'hour')}:${part(parts, 'minute')} ${part(parts, 'dayPeriod')}`
-		};
-	});
+			const parts = format.formatToParts(at);
+			return {
+				created_at,
+				date: `${part(parts, 'year')}-${part(parts, 'month')}-${part(parts, 'day')}`,
+				time: `${part(parts, 'hour')}:${part(parts, 'minute')} ${part(parts, 'dayPeriod')}`
+			};
+		});
 
 	return { rows, page, pageCount, total, offset };
 };

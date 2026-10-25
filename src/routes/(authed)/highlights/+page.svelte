@@ -637,7 +637,7 @@
 </script>
 
 <svelte:head>
-  <title>{highlight ? `📖 ${highlight.bookTile}` : "📖 Highlights"}</title>
+  <title>{highlight ? `📖 ${highlight.bookTile}` : "📖"}</title>
   <meta
     name="description"
     content="Read your saved book highlights as a flipping book."

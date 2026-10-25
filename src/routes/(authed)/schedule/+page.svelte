@@ -13,6 +13,7 @@
   import IconX from "~icons/ph/x";
   import IconSpinner from "~icons/svg-spinners/ring-resize";
   import IconWarning from "~icons/ph/warning";
+  import StreamlinePlumpFeatherPenSolid from "~icons/streamline-plump/feather-pen-solid";
 
   import month01 from "#lib/assets/images/1.webp";
   import month02 from "#lib/assets/images/2.webp";
@@ -289,11 +290,6 @@
         decoding="async"
         class="pointer-events-none absolute inset-0 h-full w-full object-cover select-none"
       />
-      <div
-        class="pointer-events-none absolute inset-0 bg-linear-to-t from-slate-950/95 via-slate-950/20 to-transparent"
-        aria-hidden="true"
-      ></div>
-
       <button
         type="button"
         onclick={() => step(-1)}
@@ -315,7 +311,7 @@
         class="absolute inset-x-0 bottom-0 flex items-end justify-between gap-12 p-12 sm:p-16"
       >
         <div
-          class="flex min-w-0 items-end gap-12 [text-shadow:0_2px_16px_rgba(0,0,0,0.7)]"
+          class="flex min-w-0 items-end gap-12 [text-shadow:0_1px_2px_rgba(0,0,0,0.9),0_2px_12px_rgba(0,0,0,0.65)]"
         >
           <span
             class="font-serif text-5xl leading-none font-light text-white tabular-nums sm:text-6xl"
@@ -323,10 +319,10 @@
             {plate.day}
           </span>
           <div class="min-w-0 pb-2">
-            <p class="truncate text-lg font-light text-white/90 sm:text-xl">
+            <p class="truncate text-lg font-light text-white sm:text-xl">
               {plate.weekday}
             </p>
-            <p class="truncate text-xs text-white/60 sm:text-sm">
+            <p class="truncate text-xs text-white/85 sm:text-sm">
               {plate.monthYear}
             </p>
           </div>
@@ -373,6 +369,11 @@
                   todayKey !== null &&
                   dayKey(cell.date) === todayKey}
                 {@const count = dayCounts[dayKey(cell.date)]}
+                {@const dayTone = cell.outside
+                  ? "text-white/20"
+                  : d === 0
+                    ? "text-red-500"
+                    : "text-slate-200"}
                 <td class="p-0 text-center">
                   <div
                     class="relative mx-auto flex size-28 items-center justify-center font-rubik text-xs font-light tabular-nums"
@@ -380,11 +381,7 @@
                     aria-hidden={cell.outside ? "true" : undefined}
                   >
                     <span
-                      class="{cell.outside
-                        ? 'text-white/20'
-                        : d === 0
-                          ? 'text-red-500'
-                          : 'text-slate-200'} {isToday
+                      class="{dayTone} {isToday
                         ? 'font-normal underline decoration-emerald-400 decoration-2 underline-offset-4'
                         : ''}"
                     >
@@ -392,7 +389,7 @@
                     </span>
                     {#if count}
                       <span
-                        class="absolute top-0 -right-3 font-rubik text-8 leading-none font-normal text-slate-300 tabular-nums"
+                        class="absolute top-0 -right-3 font-rubik text-8 leading-none font-normal tabular-nums {dayTone}"
                         aria-hidden="true"
                       >
                         {count}
@@ -493,6 +490,11 @@
           Edit schedule
         {/if}
       </button>
+
+      <a href="/diary" title="Open the diary" class={BUTTON_EDIT}>
+        <StreamlinePlumpFeatherPenSolid class="size-14" aria-hidden="true" />
+        Diary
+      </a>
     </div>
 
     {#if createError}
