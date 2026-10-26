@@ -56,7 +56,7 @@
 
   <blockquote class="relative p-6 @md:px-24 @md:py-24">
     <p
-      class="font-garamond text-10 leading-12 text-pretty text-slate-100 @md:text-sm"
+      class="font-garamond text-10 leading-12 text-pretty text-slate-100 @md:text-14"
     >
       <span
         class="mr-px align-[-0.12em] font-serif text-[1.6em] leading-none text-emerald-300/70 select-none"

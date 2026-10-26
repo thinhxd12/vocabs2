@@ -76,25 +76,25 @@
   const TILE_ON = `${BTN_ON} h-16 w-18 !bg-green-400`;
 
   const MODAL_PANEL =
-    "flex h-[calc(100dvh_-_68px)] min-h-0 w-[min(94vw,23.625rem)] max-w-378 flex-col overflow-hidden rounded-16 border border-slate-200 bg-white text-slate-900 shadow-2xl";
+    "flex h-[calc(100dvh_-_68px)] min-h-0 w-[min(94vw,23.625rem)] max-w-378 flex-col overflow-hidden rounded-[2px] bg-white text-black shadow-2xl";
 
   /* Settings already read well; keep its compact, centred form. */
   const MODAL_PANEL_COMPACT =
-    "flex max-h-[min(84dvh,38rem)] w-[min(94vw,23.625rem)] max-w-378 flex-col overflow-hidden rounded-16 border border-slate-200 bg-white text-slate-900 shadow-2xl";
+    "flex max-h-[min(84dvh,38rem)] w-[min(94vw,23.625rem)] max-w-378 flex-col overflow-hidden rounded-[2px] bg-white text-black shadow-2xl";
 
   const MODAL_HEADER =
-    "flex h-48 shrink-0 items-center justify-between gap-8 border-b border-slate-200 bg-slate-50 pr-8 pl-16 text-slate-900";
+    "flex h-48 shrink-0 items-center justify-between gap-8 bg-black pr-8 pl-16 text-white";
 
   const MODAL_CLOSE =
-    "flex size-36 shrink-0 cursor-pointer items-center justify-center rounded-8 text-slate-500 transition-colors hover:bg-slate-200 hover:text-slate-900 focus-visible:outline-2 focus-visible:outline-emerald-600";
+    "flex size-36 shrink-0 cursor-pointer items-center justify-center rounded-8 text-slate-200 transition-colors hover:bg-white/15 hover:text-white focus-visible:outline-2 focus-visible:outline-emerald-300";
 
   /** The heatmap keeps 31 fixed 10px columns, so its panel runs a little wider
    *  and only as tall as the grid needs. */
   const MODAL_PANEL_WIDE =
-    "flex max-h-[min(84dvh,44rem)] min-h-0 w-[min(96vw,28rem)] max-w-448 flex-col overflow-hidden rounded-16 border border-slate-200 bg-white text-slate-900 shadow-2xl";
+    "flex max-h-[min(84dvh,44rem)] min-h-0 w-[min(96vw,28rem)] max-w-448 flex-col overflow-hidden rounded-[2px] bg-white text-black shadow-2xl";
 
   const NUM_INPUT =
-    "h-36 w-full rounded-8 border border-slate-300 bg-white px-10 font-rubik text-sm text-slate-900 tabular-nums outline-hidden transition-colors placeholder:text-slate-400 focus-visible:border-emerald-500 focus-visible:ring-1 focus-visible:ring-emerald-500/30 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [appearance:textfield]";
+    "h-36 w-full rounded-8 border border-slate-300 bg-white px-10 font-rubik text-14 text-black tabular-nums outline-hidden transition-colors placeholder:text-black/50 focus-visible:border-emerald-500 focus-visible:ring-1 focus-visible:ring-emerald-500/30 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [appearance:textfield]";
 
   const todayDate = todayISO();
 
@@ -200,10 +200,9 @@
     reportItems.reduce((sum, row) => sum + (Number(row.time) || 0), 0),
   );
 
-  /** Six hours fills the bar; a short session still keeps a visible stub. */
-  const REPORT_BAR_MAX = 360;
-  function barPercent(minutes: number) {
-    return Math.min(100, Math.max(3, (minutes / REPORT_BAR_MAX) * 100));
+  /** Four pixels per six recorded minutes, as the old report drew it. */
+  function barWidth(minutes: number) {
+    return Math.round((Math.max(0, minutes) / 6) * 4);
   }
 
   /** Pages run backwards from the newest day, so page 1 is the latest slice. */
@@ -588,8 +587,8 @@
   <div class={MODAL_PANEL}>
     <div class={MODAL_HEADER}>
       <div class="min-w-0">
-        <p class="truncate text-sm font-semibold text-slate-900">Report</p>
-        <p class="text-11 text-slate-500 tabular-nums">
+        <p class="truncate text-14 font-semibold text-white">Report</p>
+        <p class="text-11 text-slate-300 tabular-nums">
           {totalItems}
           {totalItems === 1 ? "day" : "days"} recorded
         </p>
@@ -610,16 +609,16 @@
         <span class="sr-only">Loading the report</span>
       </div>
     {:else if reportError}
-      <p role="alert" class="flex-1 p-16 text-sm text-rose-600">
+      <p role="alert" class="flex-1 p-16 text-14 text-rose-600">
         {reportError}
       </p>
     {:else if reportItems.length === 0}
       <div
-        class="flex flex-1 flex-col items-center justify-center gap-4 py-40 text-center"
+        class="flex flex-1 flex-col items-center justify-center gap-3 py-30 text-center"
       >
         <IconTimer class="size-24 text-emerald-600" aria-hidden="true" />
-        <p class="text-sm font-medium text-slate-900">No focus time yet</p>
-        <p class="max-w-[26ch] text-xs text-slate-500">
+        <p class="text-14 font-medium text-black">No focus time yet</p>
+        <p class="max-w-[26ch] text-12 text-black/60">
           Finished focus sessions are added to your own day.
         </p>
       </div>
@@ -627,44 +626,37 @@
       <div class="min-h-0 flex-1 overflow-y-auto">
         <table class="w-full border-collapse text-left">
           <thead
-            class="sticky top-0 z-10 bg-slate-50/90 text-10 tracking-[0.18em] text-slate-500 uppercase backdrop-blur-sm"
+            class="sticky top-0 z-10 bg-slate-50/90 text-10 tracking-[0.18em] text-black/60 uppercase backdrop-blur-sm"
           >
             <tr>
-              <th scope="col" class="px-16 py-8 font-semibold">Date</th>
-              <th scope="col" class="px-16 py-8 text-right font-semibold">
+              <th scope="col" class="px-12 py-6 font-semibold">Date</th>
+              <th scope="col" class="py-6 pr-15 font-semibold">
                 Time (hh:mm)
               </th>
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-200">
             {#each reportItems as row (row.date)}
-              <tr class={row.date === todayDate ? "bg-emerald-50" : ""}>
+              <tr>
                 <td
-                  class="px-16 py-8 font-rubik text-xs tabular-nums {row.date ===
+                  class="w-0 p-12 py-6 font-rubik text-12 whitespace-nowrap tabular-nums {row.date ===
                   todayDate
-                    ? 'text-emerald-700'
-                    : 'text-slate-500'}"
+                    ? 'text-black'
+                    : 'text-black/60'}"
                 >
                   {row.date}
                 </td>
-                <td class="px-16 py-8">
-                  <div class="flex items-center gap-8">
-                    <div
-                      class="h-8 min-w-0 flex-1 overflow-hidden rounded-full bg-slate-200"
-                      aria-hidden="true"
-                    >
-                      <div
-                        class="h-full rounded-full {row.date === todayDate
-                          ? 'bg-emerald-500'
-                          : 'bg-emerald-300'}"
-                        style="width: {barPercent(Number(row.time) || 0)}%"
-                      ></div>
-                    </div>
+                <td class="py-6 pr-15">
+                  <div
+                    class="relative h-18 rounded-2 {row.date === todayDate
+                      ? 'bg-blue-400'
+                      : 'bg-blue-200'}"
+                    style="width: {barWidth(Number(row.time) || 0)}px;"
+                  >
                     <span
-                      class="w-44 shrink-0 text-right font-rubik text-xs tabular-nums {row.date ===
-                      todayDate
-                        ? 'text-emerald-700'
-                        : 'text-slate-500'}"
+                      class="absolute {Number(row.time) <= 60
+                        ? 'left-3 text-left'
+                        : 'right-3 text-right'} min-w-36 font-rubik text-10 leading-18 text-black/70 tabular-nums"
                     >
                       {formatClock(Number(row.time) || 0)}
                     </span>
@@ -679,7 +671,7 @@
       <div
         class="flex shrink-0 flex-col gap-8 border-t border-slate-200 bg-slate-50 px-12 py-8"
       >
-        <p class="text-11 text-slate-500 tabular-nums">
+        <p class="text-11 text-black/60 tabular-nums">
           {formatDuration(reportTotal)} on this page
         </p>
         <Pagination
@@ -699,7 +691,7 @@
 <Modal bind:showModal={showHeatmap} label="Focus heatmap" variant="fill">
   <div class={MODAL_PANEL_WIDE}>
     <div class={MODAL_HEADER}>
-      <p class="truncate text-sm font-semibold text-slate-900">Heatmap</p>
+      <p class="truncate text-14 font-semibold text-white">Heatmap</p>
       <button
         type="button"
         onclick={() => (showHeatmap = false)}
@@ -722,7 +714,7 @@
 <Modal bind:showModal={showSettings} label="Timer settings">
   <div class={MODAL_PANEL_COMPACT}>
     <div class={MODAL_HEADER}>
-      <p class="truncate text-sm font-semibold text-slate-900">Setting</p>
+      <p class="truncate text-14 font-semibold text-white">Setting</p>
       <button
         type="button"
         onclick={() => (showSettings = false)}
@@ -735,14 +727,14 @@
 
     <div class="min-h-0 flex-1 overflow-y-auto p-16">
       <p
-        class="mb-8 text-10 font-semibold tracking-[0.2em] text-slate-500 uppercase"
+        class="mb-8 text-10 font-semibold tracking-[0.2em] text-black/60 uppercase"
       >
         Time (minutes)
       </p>
 
       <div class="grid grid-cols-3 gap-8">
         <label class="block min-w-0">
-          <span class="mb-4 block text-xs text-slate-600">Pomodoro</span>
+          <span class="mb-4 block text-12 text-black/70">Pomodoro</span>
           <input
             type="number"
             name="pomodoro"
@@ -758,7 +750,7 @@
         </label>
 
         <label class="block min-w-0">
-          <span class="mb-4 block text-xs text-slate-600">Short Break</span>
+          <span class="mb-4 block text-12 text-black/70">Short Break</span>
           <input
             type="number"
             name="shortBreak"
@@ -774,7 +766,7 @@
         </label>
 
         <label class="block min-w-0">
-          <span class="mb-4 block text-xs text-slate-600">Long Break</span>
+          <span class="mb-4 block text-12 text-black/70">Long Break</span>
           <input
             type="number"
             name="longBreak"
@@ -791,14 +783,14 @@
       </div>
 
       <p
-        class="mt-16 mb-8 text-10 font-semibold tracking-[0.2em] text-slate-500 uppercase"
+        class="mt-16 mb-8 text-10 font-semibold tracking-[0.2em] text-black/60 uppercase"
       >
         Long Break interval
       </p>
 
       <div class="grid grid-cols-2 gap-8">
         <label class="block min-w-0">
-          <span class="mb-4 block text-xs text-slate-600">Every</span>
+          <span class="mb-4 block text-12 text-black/70">Every</span>
           <input
             type="number"
             name="longBreakInterval"
@@ -813,8 +805,7 @@
         </label>
 
         <label class="block min-w-0">
-          <span class="mb-4 block text-xs text-slate-600">Current interval</span
-          >
+          <span class="mb-4 block text-12 text-black/70">Current interval</span>
           <input
             type="number"
             name="currentInterval"
@@ -831,7 +822,7 @@
       </div>
 
       <p
-        class="mt-16 mb-8 text-10 font-semibold tracking-[0.2em] text-slate-500 uppercase"
+        class="mt-16 mb-8 text-10 font-semibold tracking-[0.2em] text-black/60 uppercase"
       >
         Display
       </p>
@@ -845,8 +836,8 @@
             aria-hidden="true"
           />
           <div class="min-w-0">
-            <p class="text-xs font-medium text-slate-900">Keep screen awake</p>
-            <p class="mt-2 text-11 leading-snug text-slate-500">
+            <p class="text-12 font-medium text-black">Keep screen awake</p>
+            <p class="mt-2 text-11 leading-snug text-black/60">
               {wakeSupported
                 ? "Stops the display from sleeping while the timer runs."
                 : "This browser cannot keep the screen awake."}
@@ -866,7 +857,7 @@
             : 'border-slate-300 bg-slate-200'}"
         >
           <span
-            class="absolute top-2 left-2 flex size-18 items-center justify-center rounded-full bg-white text-slate-900 shadow-sm ring-1 ring-black/10 transition-transform duration-200 motion-reduce:transition-none {wakeEnabled
+            class="absolute top-2 left-2 flex size-18 items-center justify-center rounded-full bg-white text-black shadow-sm ring-1 ring-black/10 transition-transform duration-200 motion-reduce:transition-none {wakeEnabled
               ? 'translate-x-20'
               : ''}"
             aria-hidden="true"
@@ -880,7 +871,7 @@
         </button>
       </div>
 
-      <p class="mt-16 text-11 text-slate-500">
+      <p class="mt-16 text-11 text-black/60">
         Changes apply immediately and are remembered on this device.
       </p>
     </div>
@@ -888,13 +879,13 @@
     <div
       class="flex shrink-0 items-center justify-between gap-8 border-t border-slate-200 bg-slate-50 px-12 py-8"
     >
-      <p class="text-10 text-slate-500">
+      <p class="text-10 text-black/60">
         {pomodoro.isPaused ? "Timer paused" : "Timer running"}
       </p>
       <button
         type="button"
         onclick={() => (showSettings = false)}
-        class="h-36 cursor-pointer rounded-8 bg-emerald-600 px-16 text-xs font-semibold text-white transition-colors hover:bg-emerald-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 active:scale-97 motion-reduce:transition-none"
+        class="h-36 cursor-pointer rounded-8 bg-emerald-600 px-16 text-12 font-semibold text-white transition-colors hover:bg-emerald-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 active:scale-97 motion-reduce:transition-none"
       >
         Done
       </button>

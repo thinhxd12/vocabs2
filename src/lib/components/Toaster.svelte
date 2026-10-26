@@ -28,7 +28,7 @@
     >
       <Icon class="mt-px size-16 shrink-0 {tone.accent}" aria-hidden="true" />
       <div class="min-w-0 flex-1">
-        <p class="text-xs font-semibold text-white">{toast.title}</p>
+        <p class="text-12 font-semibold text-white">{toast.title}</p>
         {#if toast.message}
           <p class="mt-2 text-11 leading-snug text-slate-300">
             {toast.message}

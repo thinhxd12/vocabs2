@@ -231,7 +231,7 @@
 
   /** Shared pill shell for the two actions. */
   const BTN =
-    "inline-flex shrink-0 touch-manipulation items-center justify-center gap-6 rounded-full px-12 py-6 text-xs font-semibold transition-colors duration-200 outline-offset-2 focus-visible:outline-2 focus-visible:outline-emerald-300 disabled:cursor-not-allowed disabled:opacity-40 motion-reduce:transition-none";
+    "inline-flex shrink-0 touch-manipulation items-center justify-center gap-6 rounded-full px-12 py-6 text-12 font-semibold transition-colors duration-200 outline-offset-2 focus-visible:outline-2 focus-visible:outline-emerald-300 disabled:cursor-not-allowed disabled:opacity-40 motion-reduce:transition-none";
 
   const SAVE = `${BTN} bg-emerald-500 text-slate-950 hover:bg-emerald-400 active:bg-emerald-600`;
   const DELETE = `${BTN} border border-red-500/30 bg-red-500/10 text-red-300 hover:border-red-500/50 hover:bg-red-500/20 hover:text-red-200 active:bg-red-500/25`;
@@ -269,7 +269,7 @@
       </button>
 
       <div class="min-w-0 flex-1 text-center">
-        <p class="truncate font-serif text-sm text-white">{monthLabel}</p>
+        <p class="truncate font-serif text-14 text-white">{monthLabel}</p>
         <p
           class="font-rubik text-10 text-slate-400 tabular-nums"
           aria-live="polite"
@@ -350,7 +350,7 @@
                 disabled={key > todayLocal}
                 aria-pressed={selected}
                 aria-label={dayLabel(day, marked)}
-                class="relative mx-auto flex size-36 touch-manipulation items-center justify-center rounded-full font-rubik text-xs tabular-nums transition-colors duration-200 outline-offset-2 focus-visible:outline-2 focus-visible:outline-emerald-300 disabled:cursor-not-allowed disabled:opacity-30 motion-reduce:transition-none {dayClass(
+                class="relative mx-auto flex size-36 touch-manipulation items-center justify-center rounded-full font-rubik text-12 tabular-nums transition-colors duration-200 outline-offset-2 focus-visible:outline-2 focus-visible:outline-emerald-300 disabled:cursor-not-allowed disabled:opacity-30 motion-reduce:transition-none {dayClass(
                   key,
                   selected,
                   marked,
@@ -423,7 +423,7 @@
         value={data.date}
         max={todayLocal}
         onchange={onDateChange}
-        class="rounded-full border border-white/10 bg-black/30 px-12 py-6 font-rubik text-xs text-slate-100 tabular-nums outline-offset-2 focus-visible:outline-2 focus-visible:outline-emerald-300"
+        class="rounded-full border border-white/10 bg-black/30 px-12 py-6 font-rubik text-12 text-slate-100 tabular-nums outline-offset-2 focus-visible:outline-2 focus-visible:outline-emerald-300"
       />
       <span
         class="ml-auto inline-flex items-center gap-6 font-rubik text-11 text-slate-400 tabular-nums"

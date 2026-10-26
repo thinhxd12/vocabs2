@@ -86,7 +86,7 @@
 
   /** Shared shell: a squared-off, focus-ringed, tap-friendly control. */
   const BASE = $derived(
-    `inline-flex shrink-0 touch-manipulation items-center justify-center rounded-2 font-sfpro text-xs tabular-nums select-none transition-colors duration-200 outline-offset-2 focus-visible:outline-2 ${
+    `inline-flex shrink-0 touch-manipulation items-center justify-center rounded-2 font-sfpro text-12 tabular-nums select-none transition-colors duration-200 outline-offset-2 focus-visible:outline-2 ${
       tone === "light"
         ? "focus-visible:outline-emerald-600"
         : "focus-visible:outline-emerald-300"
@@ -96,13 +96,13 @@
   const toneStyles = $derived(
     tone === "light"
       ? {
-          step: "border border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-100 hover:text-slate-900 active:bg-slate-200",
+          step: "border border-slate-200 bg-white text-black/70 hover:border-slate-300 hover:bg-slate-100 hover:text-black active:bg-slate-200",
           track: "border border-slate-200 bg-slate-100",
           ghost:
-            "font-normal text-slate-600 hover:bg-slate-200/70 hover:text-slate-900 active:bg-slate-200",
-          gap: "text-slate-400",
+            "font-normal text-black/70 hover:bg-slate-200/70 hover:text-black active:bg-slate-200",
+          gap: "text-black/50",
           input:
-            "border-slate-200 bg-white text-slate-700 placeholder:text-slate-400 focus-visible:border-emerald-500",
+            "border-slate-200 bg-white text-black/80 placeholder:text-black/50 focus-visible:border-emerald-500",
         }
       : {
           step: "border border-white/10 bg-slate-800/70 backdrop-blur-lg hover:border-white/25 hover:bg-slate-800/80 hover:text-white active:bg-white/15",
@@ -189,7 +189,7 @@
           aria-current={item === current ? "page" : undefined}
           aria-label="Page {item}"
           class="{NUM} {item === current
-            ? 'font-semibold text-slate-950'
+            ? 'font-semibold text-black'
             : toneStyles.ghost}"
         >
           {#if item === current}
@@ -206,7 +206,7 @@
         </button>
       {:else}
         <span
-          class="inline-flex size-32 items-center justify-center font-sfpro text-sm select-none {toneStyles.gap}"
+          class="inline-flex size-32 items-center justify-center font-sfpro text-14 select-none {toneStyles.gap}"
           aria-hidden="true"
         >
           …

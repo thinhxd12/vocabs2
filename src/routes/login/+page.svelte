@@ -54,7 +54,7 @@
 		class="relative z-10 w-full max-w-xs"
 	>
 		<h1
-			class="ml-12 text-4xl font-thin tracking-tight text-white [text-shadow:0_2px_32px_rgba(0,0,0,0.75)]"
+			class="ml-12 text-36 font-thin tracking-tight text-white [text-shadow:0_2px_32px_rgba(0,0,0,0.75)]"
 		>
 			Login
 		</h1>
@@ -73,7 +73,7 @@
 				oninput={() => (dismissed = true)}
 				aria-invalid={errorMsg ? 'true' : undefined}
 				aria-describedby={errorMsg ? 'password-error' : undefined}
-				class="glass-input w-full rounded-full border border-white/10 px-20 py-8 text-center text-base shadow-[0_8px_32px_rgba(0,0,0,0.45)] transition-colors placeholder:text-slate-300 focus:outline-none motion-reduce:transition-none"
+				class="glass-input w-full rounded-full border border-white/10 px-20 py-8 text-center text-16 shadow-[0_8px_32px_rgba(0,0,0,0.45)] transition-colors placeholder:text-slate-300 focus:outline-none motion-reduce:transition-none"
 			/>
 
 			{#if loading}
@@ -97,7 +97,7 @@
 			<p
 				id="password-error"
 				role="alert"
-				class="mt-4 text-center text-sm font-medium text-red-500 [text-shadow:0_1px_12px_rgba(0,0,0,0.7)]"
+				class="mt-4 text-center text-14 font-medium text-red-500 [text-shadow:0_1px_12px_rgba(0,0,0,0.7)]"
 			>
 				{errorMsg}
 			</p>

@@ -347,13 +347,13 @@
       >
         <IconMapPin class="size-20" aria-hidden="true" />
       </span>
-      <p class="text-sm font-medium text-white">No locations saved</p>
-      <p class="text-xs leading-relaxed text-white/55">
+      <p class="text-14 font-medium text-white">No locations saved</p>
+      <p class="text-12 leading-relaxed text-white/55">
         Add a place on the dashboard and its forecast will appear here.
       </p>
       <a
         href="/dashboard"
-        class="rounded-full bg-emerald-300 px-16 py-8 text-xs font-semibold text-emerald-950 transition-colors hover:bg-emerald-200"
+        class="rounded-full bg-emerald-300 px-16 py-8 text-12 font-semibold text-emerald-950 transition-colors hover:bg-emerald-200"
       >
         Open dashboard
       </a>
@@ -498,7 +498,7 @@
           </div>
         {:else}
           <div class="mt-32 mb-8 flex flex-col items-center gap-8">
-            <p class="text-sm font-medium text-white">Forecast unavailable</p>
+            <p class="text-14 font-medium text-white">Forecast unavailable</p>
             <p class="max-w-256 text-11.5 leading-relaxed text-white/65">
               Open-Meteo could not be reached for this location.
             </p>
@@ -559,23 +559,11 @@
                   d="M 61.0453 41.1725 A 1.125 1.125 90 0 0 58.9547 41.1725 l -12.728 31.8197 a 1.125 1.125 90 0 0 1.548 1.424 l 12.2251 -6.1126 l 12.2236 6.1142 a 1.125 1.125 90 0 0 1.5496 -1.4256 z"
                   transform="rotate({wx.wind.direction - 180} 60 60)"
                 />
+                <text x="60" y="20" text-anchor="middle" dominant-baseline="central" fill="#ffffff8c" font-size="15">N</text>
+                <text x="100" y="60" text-anchor="middle" dominant-baseline="central" fill="#ffffff8c" font-size="15">E</text>
+                <text x="60" y="100" text-anchor="middle" dominant-baseline="central" fill="#ffffff8c" font-size="15">S</text>
+                <text x="20" y="60" text-anchor="middle" dominant-baseline="central" fill="#ffffff8c" font-size="15">W</text>
               </svg>
-              <span
-                class="absolute top-0 left-1/2 -translate-x-1/2 text-8 text-white/55"
-                >N</span
-              >
-              <span
-                class="absolute bottom-0 left-1/2 -translate-x-1/2 text-8 text-white/55"
-                >S</span
-              >
-              <span
-                class="absolute top-1/2 left-0 -translate-y-1/2 text-8 text-white/55"
-                >W</span
-              >
-              <span
-                class="absolute top-1/2 right-0 -translate-y-1/2 text-8 text-white/55"
-                >E</span
-              >
             </div>
 
             <div class="min-w-0">

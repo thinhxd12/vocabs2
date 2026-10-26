@@ -157,7 +157,7 @@
 
   // Schedule controls: one surface per action, matching the dashboard's forms.
   const BUTTON =
-    "inline-flex h-28 shrink-0 touch-manipulation cursor-pointer items-center gap-6 rounded-6 px-12 text-xs font-semibold transition-colors outline-offset-2 focus-visible:outline-2 focus-visible:outline-emerald-300 disabled:cursor-not-allowed disabled:opacity-60 motion-reduce:transition-none";
+    "inline-flex h-28 shrink-0 touch-manipulation cursor-pointer items-center gap-6 rounded-6 px-12 text-12 font-semibold transition-colors outline-offset-2 focus-visible:outline-2 focus-visible:outline-emerald-300 disabled:cursor-not-allowed disabled:opacity-60 motion-reduce:transition-none";
   const BUTTON_CREATE = `${BUTTON} bg-emerald-500 text-white hover:bg-emerald-400 active:scale-97`;
   const BUTTON_DANGER = `${BUTTON} bg-red-500 text-white hover:bg-red-400 active:scale-97`;
   const BUTTON_EDIT = `${BUTTON} border border-white/15 bg-white/5 text-slate-200 hover:bg-white/10 hover:text-white`;
@@ -165,7 +165,7 @@
   const BUTTON_CANCEL = `${BUTTON} px-14 font-medium text-slate-300 hover:bg-white/5 hover:text-white`;
 
   const FIELD_BASE =
-    "h-32 min-w-0 w-full rounded-6 border bg-white/8 px-8 text-xs text-white backdrop-blur-sm transition-colors outline-hidden placeholder:text-slate-400 focus-visible:bg-white/12 focus-visible:ring-1";
+    "h-32 min-w-0 w-full rounded-6 border bg-white/8 px-8 text-12 text-white backdrop-blur-sm transition-colors outline-hidden placeholder:text-slate-400 focus-visible:bg-white/12 focus-visible:ring-1";
   const FIELD_OK = `${FIELD_BASE} border-white/15 focus-visible:border-emerald-300/60 focus-visible:ring-emerald-400/40`;
   const FIELD_ERROR = `${FIELD_BASE} border-rose-400/60 focus-visible:border-rose-400/70 focus-visible:ring-rose-400/40`;
   const FIELD_LABEL =
@@ -314,15 +314,15 @@
           class="flex min-w-0 items-end gap-12 [text-shadow:0_1px_2px_rgba(0,0,0,0.9),0_2px_12px_rgba(0,0,0,0.65)]"
         >
           <span
-            class="font-serif text-5xl leading-none font-light text-white tabular-nums sm:text-6xl"
+            class="font-serif text-48 leading-none font-light text-white tabular-nums sm:text-60"
           >
             {plate.day}
           </span>
           <div class="min-w-0 pb-2">
-            <p class="truncate text-lg font-light text-white sm:text-xl">
+            <p class="truncate text-18 font-light text-white sm:text-20">
               {plate.weekday}
             </p>
-            <p class="truncate text-xs text-white/85 sm:text-sm">
+            <p class="truncate text-12 text-white/85 sm:text-14">
               {plate.monthYear}
             </p>
           </div>
@@ -376,7 +376,7 @@
                     : "text-slate-200"}
                 <td class="p-0 text-center">
                   <div
-                    class="relative mx-auto flex size-28 items-center justify-center font-rubik text-xs font-light tabular-nums"
+                    class="relative mx-auto flex size-28 items-center justify-center font-rubik text-12 font-light tabular-nums"
                     aria-current={isToday ? "date" : undefined}
                     aria-hidden={cell.outside ? "true" : undefined}
                   >
@@ -498,7 +498,7 @@
     </div>
 
     {#if createError}
-      <p role="alert" class="px-12 pb-10 text-xs font-medium text-rose-300">
+      <p role="alert" class="px-12 pb-10 text-12 font-medium text-rose-300">
         {createError}
       </p>
     {/if}
@@ -522,7 +522,7 @@
         class="space-y-8 border-t border-white/10 px-12 py-10"
       >
         {#if slots.length === 0}
-          <p class="font-rubik text-xs text-slate-400">
+          <p class="font-rubik text-12 text-slate-400">
             No slots are dated {data.schedule.today} — only today's rows can be edited
             here.
           </p>
@@ -538,7 +538,7 @@
               id="edit-schedule-error"
               role="alert"
               tabindex="-1"
-              class="rounded-6 text-xs font-medium text-rose-300 outline-offset-2 focus-visible:outline-2 focus-visible:outline-rose-300"
+              class="rounded-6 text-12 font-medium text-rose-300 outline-offset-2 focus-visible:outline-2 focus-visible:outline-rose-300"
             >
               {editFailure.error}
             </p>
@@ -651,7 +651,7 @@
     </div>
 
     {#if data.rows.length === 0}
-      <p class="px-12 py-24 text-center font-rubik text-xs text-slate-500">
+      <p class="px-12 py-24 text-center font-rubik text-12 text-slate-500">
         No progress entries yet.
       </p>
     {:else}
@@ -670,12 +670,12 @@
               {data.offset + i + 1}
             </span>
             <span
-              class="min-w-0 ml-48 font-rubik text-xs text-slate-200 tabular-nums"
+              class="min-w-0 ml-48 font-rubik text-12 text-slate-200 tabular-nums"
             >
               {row.start_date}
             </span>
             <span
-              class="ml-48 shrink-0 font-rubik text-xs text-slate-200 tabular-nums"
+              class="ml-48 shrink-0 font-rubik text-12 text-slate-200 tabular-nums"
             >
               {row.end_date}
             </span>

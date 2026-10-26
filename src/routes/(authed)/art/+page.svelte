@@ -46,10 +46,10 @@
 
 <svelte:window onkeydown={onKeyDown} />
 
-<Container fullscreen class="gap-0 lg:flex-row lg:items-stretch">
+<Container fullscreen class="gap-0! lg:flex-row lg:items-stretch">
   <!-- The wall: the painting lit by a blurred copy of itself. -->
   <section
-    class="relative isolate flex h-[54dvh] min-h-256 w-full shrink-0 items-center justify-center overflow-hidden bg-slate-950 lg:h-full lg:flex-1"
+    class="relative isolate flex h-[54dvh] min-h-256 w-full shrink-0 items-center justify-center overflow-hidden bg-[#19191c] lg:h-full lg:flex-1"
   >
     {#key art.image.mainImage}
       <img
@@ -60,11 +60,6 @@
         transition:fade={{ duration: fadeMs }}
       />
     {/key}
-
-    <div class="absolute inset-0 bg-slate-950/35"></div>
-    <div
-      class="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/15 to-slate-950/65"
-    ></div>
 
     {#key art.image.mainImage}
       <div
@@ -115,14 +110,14 @@
 
   <!-- The wall label: date, title, attribution, then the magazine's note. -->
   <aside
-    class="relative z-20 -mt-24 flex w-full shrink-0 flex-col rounded-t-28 border-t border-white/10 bg-slate-950 lg:mt-0 lg:h-full lg:w-360 lg:rounded-none lg:border-t-0 lg:border-l"
+    class="relative z-20 -mt-24 flex w-full shrink-0 flex-col rounded-t-28 border-t border-white/10 bg-[#19191c] lg:mt-0 lg:h-full lg:w-360 lg:rounded-none lg:border-t-0 lg:border-l"
   >
     <div
       class="mx-auto mt-10 h-4 w-40 shrink-0 rounded-full bg-white/15 lg:hidden"
     ></div>
 
     <div
-      class="no-scrollbar flex flex-col gap-20 px-20 pt-20 pb-32 sm:px-32 lg:min-h-0 lg:flex-1 lg:gap-24 lg:overflow-y-auto lg:px-32 lg:pt-36 lg:pb-24"
+      class="no-scrollbar flex flex-col gap-9 px-9 pt-9 pb-18 sm:px-32 lg:min-h-0 lg:flex-1 lg:gap-24 lg:overflow-y-auto lg:px-32 lg:pt-36 lg:pb-24"
     >
       <header>
         <p
@@ -135,20 +130,20 @@
         >
           {art.image.title}
         </h1>
-        <p class="mt-8 text-sm leading-24 text-slate-400">{art.image.attr}</p>
+        <p class="mt-8 text-14 leading-24 text-slate-400">{art.image.attr}</p>
       </header>
 
-      <div class="flex items-center gap-12">
+      <div class="flex items-center">
         <img
           src={art.image.authorImage}
           alt=""
           class="size-48 shrink-0 rounded-full object-cover ring-1 ring-white/15"
         />
         <div class="min-w-0">
-          <p class="truncate text-sm font-medium text-white">
+          <p class="truncate text-14 font-medium text-white">
             {art.image.author}
           </p>
-          <p class="mt-2 text-xs text-slate-400">{art.image.authorYears}</p>
+          <p class="mt-2 text-12 text-slate-400">{art.image.authorYears}</p>
         </div>
       </div>
 

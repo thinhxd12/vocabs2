@@ -36,14 +36,14 @@
     "id, authors, bookTile, content, dateOfCreation, like, location, page, type, note";
 
   const PANEL =
-    "flex min-h-0 max-w-[calc(100vw-1.5rem)] flex-col overflow-hidden rounded-16 border border-white/10 bg-slate-900 text-slate-100 shadow-2xl";
+    "flex min-h-0 max-w-[calc(100vw-1.5rem)] flex-col overflow-hidden rounded-[2px] bg-white text-black shadow-2xl";
   const HEADER =
-    "flex h-48 shrink-0 items-center justify-between gap-8 border-b border-white/10 bg-white/5 pr-8 pl-16 text-white";
+    "flex h-48 shrink-0 items-center justify-between gap-8 bg-black pr-8 pl-16 text-white";
   const CLOSE =
-    "flex size-36 shrink-0 cursor-pointer items-center justify-center rounded-8 text-slate-400 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-2 focus-visible:outline-emerald-300";
+    "flex size-36 shrink-0 cursor-pointer items-center justify-center rounded-8 text-slate-200 transition-colors hover:bg-white/15 hover:text-white focus-visible:outline-2 focus-visible:outline-emerald-300";
   const FIELD =
-    "w-full rounded-8 border border-white/10 bg-white/5 px-12 py-8 text-sm text-slate-100 outline-hidden transition-colors placeholder:text-slate-500 focus-visible:border-emerald-400 focus-visible:ring-1 focus-visible:ring-emerald-400/30";
-  const LABEL = "mb-6 block text-xs font-medium text-slate-300";
+    "w-full rounded-8 border border-slate-300 bg-white px-12 py-8 text-14 text-black outline-hidden transition-colors placeholder:text-black/50 focus-visible:border-emerald-600 focus-visible:ring-1 focus-visible:ring-emerald-600/30";
+  const LABEL = "mb-6 block text-12 font-medium text-black/70";
 
   // Seeded from the server load, then owned locally while the reader flips
   // through highlights; `update()` after a form action does not replace it.
@@ -975,14 +975,14 @@
           class="size-28 text-emerald-300"
           aria-hidden="true"
         />
-        <p class="text-sm font-semibold text-white">No highlights yet</p>
-        <p class="max-w-[30ch] text-xs leading-relaxed text-slate-300">
+        <p class="text-14 font-semibold text-white">No highlights yet</p>
+        <p class="max-w-[30ch] text-12 leading-relaxed text-slate-300">
           Import your Kindle clippings and they will be bound into a book here.
         </p>
         <button
           type="button"
           onclick={openInsert}
-          class="mt-8 h-36 cursor-pointer rounded-8 bg-emerald-400 px-16 text-xs font-semibold text-slate-950 transition-colors hover:bg-emerald-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
+          class="mt-8 h-36 cursor-pointer rounded-8 bg-emerald-400 px-16 text-12 font-semibold text-slate-950 transition-colors hover:bg-emerald-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
         >
           Import highlights
         </button>
@@ -995,7 +995,7 @@
 <Modal bind:showModal={showEdit} label="Edit highlight">
   <div class={PANEL} style="width: {dialogWidth}px; height: {dialogHeight}px;">
     <div class={HEADER}>
-      <p class="truncate text-sm font-semibold">Edit highlight</p>
+      <p class="truncate text-14 font-semibold">Edit highlight</p>
       <button
         type="button"
         onclick={() => (showEdit = false)}
@@ -1075,11 +1075,11 @@
 
         <div class="flex min-h-0 flex-col gap-8">
           <div class="flex flex-wrap items-center gap-6">
-            <span class="mr-4 text-xs font-medium text-slate-300">Content</span>
+            <span class="mr-4 text-12 font-medium text-black/70">Content</span>
             {#each [{ label: "Open paragraph", tag: "<p>" }, { label: "Close paragraph", tag: "</p>" }, { label: "Open quote", tag: "<cite>" }, { label: "Close quote", tag: "</cite>" }] as helper (helper.label)}
               <button
                 type="button"
-                class="h-28 cursor-pointer rounded-6 border border-white/10 bg-white/5 px-8 font-mono text-10 text-slate-300 transition-colors hover:bg-white/10 hover:text-white"
+                class="h-28 cursor-pointer rounded-6 border border-slate-300 bg-slate-50 px-8 font-mono text-10 text-black/70 transition-colors hover:bg-slate-100 hover:text-black"
                 aria-label="Copy {helper.label} tag"
                 onclick={() =>
                   navigator.clipboard.writeText(helper.tag).catch(() => {})}
@@ -1099,13 +1099,13 @@
           <button
             type="submit"
             disabled={isSubmitting}
-            class="h-36 cursor-pointer rounded-8 bg-emerald-400 px-16 text-xs font-semibold text-slate-950 transition-colors hover:bg-emerald-300 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
+            class="h-36 cursor-pointer rounded-8 bg-emerald-600 px-16 text-12 font-semibold text-white transition-colors hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
           >
             {isSubmitting ? "Saving…" : "Save"}
           </button>
           <button
             type="button"
-            class="h-36 cursor-pointer rounded-8 px-12 text-xs font-medium text-slate-300 transition-colors hover:bg-white/10 hover:text-white"
+            class="h-36 cursor-pointer rounded-8 px-12 text-12 font-medium text-black/70 transition-colors hover:bg-slate-100 hover:text-black"
             onclick={() => (showEdit = false)}
           >
             Cancel
@@ -1120,7 +1120,7 @@
 <Modal bind:showModal={showInsert} label="Import Kindle highlights">
   <div class={PANEL} style="width: {dialogWidth}px; height: {dialogHeight}px;">
     <div class={HEADER}>
-      <p class="truncate text-sm font-semibold">Import highlights</p>
+      <p class="truncate text-14 font-semibold">Import highlights</p>
       <button
         type="button"
         onclick={() => (showInsert = false)}
@@ -1179,13 +1179,13 @@
           <button
             type="submit"
             disabled={isSubmitting}
-            class="h-36 cursor-pointer rounded-8 bg-emerald-400 px-16 text-xs font-semibold text-slate-950 transition-colors hover:bg-emerald-300 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
+            class="h-36 cursor-pointer rounded-8 bg-emerald-600 px-16 text-12 font-semibold text-white transition-colors hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
           >
             {isSubmitting ? "Importing…" : "Import"}
           </button>
           <button
             type="button"
-            class="h-36 cursor-pointer rounded-8 px-12 text-xs font-medium text-slate-300 transition-colors hover:bg-white/10 hover:text-white"
+            class="h-36 cursor-pointer rounded-8 px-12 text-12 font-medium text-black/70 transition-colors hover:bg-slate-100 hover:text-black"
             onclick={() => (showInsert = false)}
           >
             Cancel
@@ -1193,26 +1193,26 @@
         </div>
       </form>
 
-      <div class="flex min-h-0 flex-col border-white/10 sm:border-l sm:pl-24">
+      <div class="flex min-h-0 flex-col border-slate-200 sm:border-l sm:pl-24">
         {#if recent.length > 0}
           <p
-            class="mb-8 text-10 font-semibold tracking-[0.18em] text-slate-500 uppercase"
+            class="mb-8 text-10 font-semibold tracking-[0.18em] text-black/60 uppercase"
           >
             Latest highlights
           </p>
           <div
-            class="min-h-0 flex-1 overflow-auto rounded-8 border border-white/10"
+            class="min-h-0 flex-1 overflow-auto rounded-8 border border-slate-300"
           >
             <table class="w-full text-left text-11">
-              <thead class="bg-white/5 text-slate-400">
+              <thead class="bg-slate-50 text-black/60">
                 <tr>
                   <th scope="col" class="px-10 py-6 font-medium">Book</th>
                   <th scope="col" class="px-10 py-6 font-medium">Added</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-white/5">
+              <tbody class="divide-y divide-slate-200">
                 {#each recent as item (item.id)}
-                  <tr class="text-slate-300">
+                  <tr class="text-black/80">
                     <td class="max-w-160 truncate px-10 py-6"
                       >{item.bookTile}</td
                     >
@@ -1226,9 +1226,9 @@
           </div>
         {:else}
           <div
-            class="flex flex-1 items-center justify-center rounded-8 border border-dashed border-white/10 px-16 text-center"
+            class="flex flex-1 items-center justify-center rounded-8 border border-dashed border-slate-300 px-16 text-center"
           >
-            <p class="max-w-[24ch] text-11 leading-relaxed text-slate-500">
+            <p class="max-w-[24ch] text-11 leading-relaxed text-black/60">
               Imported highlights will be listed here.
             </p>
           </div>
@@ -1241,29 +1241,41 @@
 <!-- === Delete ========================================================== -->
 <Modal bind:showModal={showDelete} label="Delete highlight">
   <div
-    class="w-[min(94vw,22rem)] overflow-hidden rounded-16 border border-white/10 bg-slate-900 p-20 text-slate-100 shadow-2xl"
+    class="w-[min(94vw,22rem)] overflow-hidden rounded-[2px] bg-white text-black shadow-2xl"
   >
-    <p class="text-sm font-semibold text-white">Delete this highlight?</p>
-    <p class="mt-4 text-xs leading-relaxed text-slate-400">
-      “{highlight?.bookTile ?? ""}” will be removed from your book. This cannot
-      be undone.
-    </p>
-    <div class="mt-16 flex items-center justify-end gap-8">
+    <div class={HEADER}>
+      <p class="truncate text-14 font-semibold">Delete highlight</p>
       <button
         type="button"
-        class="h-36 cursor-pointer rounded-8 px-12 text-xs font-medium text-slate-300 transition-colors hover:bg-white/10 hover:text-white"
         onclick={() => (showDelete = false)}
+        aria-label="Close"
+        class={CLOSE}
       >
-        Cancel
+        <IconX class="size-16" aria-hidden="true" />
       </button>
-      <button
-        type="button"
-        disabled={deleting}
-        class="h-36 cursor-pointer rounded-8 bg-red-500 px-16 text-xs font-semibold text-white transition-colors hover:bg-red-400 disabled:cursor-not-allowed disabled:opacity-60"
-        onclick={deleteHighlight}
-      >
-        {deleting ? "Deleting…" : "Delete"}
-      </button>
+    </div>
+    <div class="p-20">
+      <p class="text-14 leading-relaxed text-black/70">
+        “{highlight?.bookTile ?? ""}” will be removed from your book. This
+        cannot be undone.
+      </p>
+      <div class="mt-16 flex items-center justify-end gap-8">
+        <button
+          type="button"
+          class="h-36 cursor-pointer rounded-8 px-12 text-12 font-medium text-black/70 transition-colors hover:bg-slate-100 hover:text-black"
+          onclick={() => (showDelete = false)}
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          disabled={deleting}
+          class="h-36 cursor-pointer rounded-8 bg-red-600 px-16 text-12 font-semibold text-white transition-colors hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-60"
+          onclick={deleteHighlight}
+        >
+          {deleting ? "Deleting…" : "Delete"}
+        </button>
+      </div>
     </div>
   </div>
 </Modal>
@@ -1769,6 +1781,7 @@
 
   .book-field::selection {
     background-color: #fef135;
+    color: #1e1915;
   }
 
   .book-field:focus-visible {

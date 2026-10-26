@@ -510,7 +510,7 @@
         <div
           class="flex h-full w-full flex-col items-center justify-center gap-6 px-40 text-center"
         >
-          <p class="font-constantine text-xl text-white/85">All caught up</p>
+          <p class="font-constantine text-20 text-white/85">All caught up</p>
           <p class="text-11 leading-snug text-slate-400">
             Nothing is due. Type a batch size and tap the star to load more.
           </p>
@@ -520,7 +520,7 @@
           class="flex h-full w-full items-center justify-center gap-8 text-white/75"
         >
           <IconSpinner class="size-16" aria-hidden="true" />
-          <p class="text-xs">Loading the next batch…</p>
+          <p class="text-12">Loading the next batch…</p>
         </div>
       {:else if showTranslate}
         <!-- Copied from the legacy client: the translation panel starts 90px
@@ -708,7 +708,7 @@
               {interval(rating.key)}
             </span>
             <span
-              class="relative text-sm leading-16 font-semibold tracking-[0.04em] uppercase"
+              class="relative text-14 leading-16 font-semibold tracking-[0.04em] uppercase"
             >
               {rating.label}
             </span>

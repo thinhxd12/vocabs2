@@ -270,14 +270,14 @@
         type="button"
         onclick={() => shiftYear(-1)}
         aria-label="Previous year"
-        class="flex size-36 cursor-pointer items-center justify-center rounded-8 border border-slate-200 bg-white text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+        class="flex size-36 cursor-pointer items-center justify-center rounded-8 border border-slate-200 bg-white text-black/60 transition-colors hover:bg-slate-100 hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
       >
         <IconCaretLeft class="size-16" aria-hidden="true" />
       </button>
 
       <p
         aria-live="polite"
-        class="min-w-64 text-center font-rubik text-lg font-semibold text-slate-900 tabular-nums"
+        class="min-w-64 text-center font-rubik text-18 font-semibold text-black tabular-nums"
       >
         {year}
       </p>
@@ -286,7 +286,7 @@
         type="button"
         onclick={() => shiftYear(1)}
         aria-label="Next year"
-        class="flex size-36 cursor-pointer items-center justify-center rounded-8 border border-slate-200 bg-white text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+        class="flex size-36 cursor-pointer items-center justify-center rounded-8 border border-slate-200 bg-white text-black/60 transition-colors hover:bg-slate-100 hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
       >
         <IconCaretRight class="size-16" aria-hidden="true" />
       </button>
@@ -303,7 +303,7 @@
       <span class="sr-only">Loading the year</span>
     </div>
   {:else if errorMessage}
-    <p role="alert" class="text-sm text-rose-600">{errorMessage}</p>
+    <p role="alert" class="text-14 text-rose-600">{errorMessage}</p>
   {:else}
     <div class="flex flex-col gap-8">
       <div class="no-scrollbar overflow-x-auto py-6">
@@ -311,7 +311,7 @@
           <div class="flex items-start gap-6" aria-hidden="true">
             <span class="w-20 shrink-0"></span>
             <div
-              class="grid grid-cols-[repeat(31,10px)] gap-0.5 text-center text-7 leading-none text-black font-400"
+              class="grid grid-cols-[repeat(31,10px)] gap-1.5 text-center text-7 leading-none text-black font-400"
             >
               {#each DAY_AXIS as day (day)}
                 <span>{day === 1 || (day - 1) % 7 === 0 ? day : ""}</span>
@@ -323,7 +323,7 @@
             bind:this={gridEl}
             role="group"
             aria-label="Focus time by day"
-            class="flex flex-col gap-0.5"
+            class="flex flex-col gap-1.5"
           >
             {#each monthRows as row (row.name)}
               <div class="flex items-center gap-6">
@@ -334,7 +334,7 @@
                 </span>
 
                 <div
-                  class="grid grid-cols-[repeat(31,10px)] gap-0.5"
+                  class="grid grid-cols-[repeat(31,10px)] gap-1.5"
                   role="group"
                   aria-label="{row.name} focus time"
                 >
@@ -389,7 +389,7 @@
         >
           <div class="text-center">
             <p
-              class="font-rubik text-3xl leading-none font-semibold text-emerald-700 tabular-nums"
+              class="font-rubik text-30 leading-none font-semibold text-emerald-700 tabular-nums"
             >
               {format(parseISO(selected.date), "d")}
             </p>
@@ -401,17 +401,17 @@
           </div>
 
           <div class="min-w-0 flex-1">
-            <p class="truncate text-sm font-medium text-slate-900">
+            <p class="truncate text-14 font-medium text-black">
               {format(parseISO(selected.date), "MMMM yyyy")}
             </p>
-            <p class="mt-2 text-xs text-emerald-700/80 tabular-nums">
+            <p class="mt-2 text-12 text-emerald-700/80 tabular-nums">
               {formatDuration(selected.time)}
             </p>
           </div>
         </div>
       {:else}
         <p
-          class="rounded-16 border border-slate-200 bg-slate-50 p-12 text-xs text-slate-500"
+          class="rounded-16 border border-slate-200 bg-slate-50 p-12 text-12 text-black/60"
         >
           Pick a day to see the focus time recorded on it.
         </p>

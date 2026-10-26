@@ -31,12 +31,12 @@
     goto(url, { reset: false });
   }
 
-  /** Full-width dashed pill that adds the current moment. */
+  /** The white slab is the button itself: one 44px tap target, 2px corners. */
   const ADD =
-    "inline-flex w-full touch-manipulation items-center justify-center gap-6 rounded-12 border border-dashed border-white/15 bg-white/5 px-12 py-10 font-rubik text-xs font-medium text-slate-300 transition-colors duration-200 outline-offset-2 hover:border-white/30 hover:bg-white/10 hover:text-white focus-visible:outline-2 focus-visible:outline-emerald-300 active:bg-white/15 motion-reduce:transition-none";
+    "flex w-full cursor-pointer touch-manipulation items-center gap-10 rounded-2 border border-slate-200 bg-white p-8 text-left transition-colors duration-200 outline-offset-2 hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-emerald-600 active:bg-slate-100 motion-reduce:transition-none";
 
   const DELETE =
-    "inline-flex size-32 shrink-0 touch-manipulation items-center justify-center rounded-full text-slate-500 transition-colors duration-200 outline-offset-2 hover:bg-red-500/15 hover:text-red-300 focus-visible:outline-2 focus-visible:outline-emerald-300 active:bg-red-500/25 motion-reduce:transition-none";
+    "inline-flex size-32 shrink-0 touch-manipulation items-center justify-center rounded-full text-black/50 transition-colors duration-200 outline-offset-2 hover:bg-red-50 hover:text-red-600 focus-visible:outline-2 focus-visible:outline-emerald-600 active:bg-red-100 motion-reduce:transition-none";
 </script>
 
 <svelte:head>
@@ -60,19 +60,30 @@
   <!-- Solid surface: a blurred card this tall repaints the whole backdrop on
        every scroll, which is what made the page feel heavy. -->
   <div
-    class="flex min-h-0 w-full flex-1 flex-col overflow-hidden rounded-16 border border-white/10 bg-slate-900"
+    class="flex min-h-0 w-full flex-1 flex-col overflow-hidden rounded-2 border border-slate-200 bg-white text-black"
   >
-    <form method="POST" action="?/add" use:enhance class="shrink-0 p-8">
+    <form method="POST" action="?/add" use:enhance class="m-8 shrink-0">
       <button type="submit" class={ADD}>
-        <IconPlus class="size-16 shrink-0" aria-hidden="true" />
-        Mark today
+        <span
+          class="flex size-28 shrink-0 items-center justify-center rounded-2 bg-emerald-600 text-white"
+        >
+          <IconPlus class="size-14" aria-hidden="true" />
+        </span>
+        <span class="min-w-0 flex-1">
+          <span class="block font-rubik text-12 font-semibold text-black">
+            Mark today
+          </span>
+          <span class="block font-rubik text-10 leading-tight text-black/60">
+            Log the moment you are in
+          </span>
+        </span>
       </button>
     </form>
 
     {#if errorMsg}
       <p
         role="alert"
-        class="shrink-0 px-12 pb-8 font-rubik text-11 text-red-400"
+        class="shrink-0 px-12 pb-8 font-rubik text-11 text-red-600"
       >
         {errorMsg}
       </p>
@@ -82,29 +93,45 @@
       <!-- The empty card keeps the add button where it was, so the first click
            does not move the page under the pointer. -->
       <div
-        class="flex flex-1 flex-col items-center justify-center gap-4 border-t border-white/10 px-16 py-40 text-center"
+        class="flex flex-1 flex-col items-center justify-center gap-4 border-t border-slate-200 px-16 py-40 text-center"
       >
-        <IconSmileySad class="size-24 text-slate-500" aria-hidden="true" />
-        <p class="font-serif text-sm text-slate-400 italic">
+        <IconSmileySad class="size-24 text-black/50" aria-hidden="true" />
+        <p class="font-serif text-14 text-black/60 italic">
           No sad days marked yet.
         </p>
       </div>
     {:else}
-      <ol
-        class="no-scrollbar min-h-0 flex-1 overflow-y-auto border-t border-white/10"
+      <div
+        class="grid shrink-0 grid-cols-[minmax(0,1fr)_auto_32px] items-center gap-8 border-t border-slate-200 py-6 pr-8 pl-12"
       >
+        <span
+          class="font-rubik text-10 font-semibold tracking-[0.18em] text-black/60 uppercase"
+        >
+          Date
+        </span>
+        <span
+          class="font-rubik text-10 font-semibold tracking-[0.18em] text-black/60 uppercase"
+        >
+          Time
+        </span>
+        <span class="sr-only">Delete</span>
+      </div>
+
+      <ol class="no-scrollbar min-h-0 flex-1 overflow-y-auto">
         {#each data.rows as row (row.created_at)}
           <li
-            class="flex items-center gap-12 px-12 py-4 transition-colors duration-150 not-last:border-b not-last:border-white/8 hover:bg-white/5 motion-reduce:transition-none"
+            class="grid grid-cols-[minmax(0,1fr)_auto_32px] items-center gap-8 border-l-2 border-transparent py-4 pr-8 pl-10 transition-colors duration-150 not-last:border-b not-last:border-slate-200 hover:border-l-red-400 hover:bg-slate-50 motion-reduce:transition-none"
           >
-            <span class="font-rubik text-xs text-slate-200 tabular-nums">
+            <span
+              class="font-rubik text-12 font-500 text-black tabular-nums"
+            >
               {row.date}
             </span>
-            <span class="font-rubik text-11 text-slate-500 tabular-nums">
+            <span class="font-rubik text-11 text-black/60 tabular-nums">
               {row.time}
             </span>
 
-            <form method="POST" action="?/delete" use:enhance class="ml-auto">
+            <form method="POST" action="?/delete" use:enhance>
               <input type="hidden" name="created_at" value={row.created_at} />
               <button
                 type="submit"
@@ -123,12 +150,13 @@
     {#if data.pageCount > 1}
       <!-- The shared pager, with no sibling numbers: the reading column is
            narrow, and the full window plus the jump box would wrap. -->
-      <div class="shrink-0 border-t border-white/10 px-8 py-6">
+      <div class="shrink-0 border-t border-slate-200 bg-slate-50 px-8 py-6">
         <Pagination
           page={data.page}
           pageCount={data.pageCount}
           siblings={0}
           morph={false}
+          tone="light"
           label="Sad days pages"
           onchange={goToPage}
         />

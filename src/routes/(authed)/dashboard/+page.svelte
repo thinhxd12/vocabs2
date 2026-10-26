@@ -42,7 +42,7 @@
   // Form fields: one clean translucent surface, shared height/padding/ring so
   // the two inputs read as a matched pair instead of two different widgets.
   const FIELD_BASE =
-    "h-32 min-w-0 w-full rounded-6 border bg-white/8 px-8 text-xs text-white backdrop-blur-sm transition-colors outline-hidden placeholder:text-slate-400 focus-visible:bg-white/12 focus-visible:ring-1";
+    "h-32 min-w-0 w-full rounded-6 border bg-white/8 px-8 text-12 text-white backdrop-blur-sm transition-colors outline-hidden placeholder:text-slate-400 focus-visible:bg-white/12 focus-visible:ring-1";
   const FIELD_OK =
     `${FIELD_BASE} border-white/15 focus-visible:border-emerald-300/60 focus-visible:ring-emerald-400/40`;
   const FIELD_ERROR =
@@ -176,12 +176,12 @@
 <section class="mx-auto w-full max-w-378 space-y-2">
   <header class="space-y-4 flex justify-between items-center">
     <h1
-      class="text-3xl font-bold text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.6)]"
+      class="text-30 font-bold text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.6)]"
     >
       Dashboard
     </h1>
     {#if hasRecord}
-      <p class="flex items-center gap-8 text-sm text-slate-300">
+      <p class="flex items-center gap-8 text-14 text-slate-300">
         <span
           class="flex size-24 shrink-0 items-center justify-center rounded-full bg-linear-to-br from-emerald-400 to-teal-500 text-11 font-bold text-white"
           aria-hidden="true"
@@ -296,7 +296,7 @@
             <p
               id="add-progress-error"
               role="alert"
-              class="text-xs font-medium text-rose-300"
+              class="text-12 font-medium text-rose-300"
             >
               {addError}
             </p>
@@ -306,7 +306,7 @@
             <button
               type="submit"
               disabled={saving}
-              class="inline-flex h-28 cursor-pointer items-center gap-6 rounded-2 bg-emerald-500 px-18 text-xs font-semibold text-white transition-colors hover:bg-emerald-400 active:scale-97 disabled:cursor-not-allowed disabled:opacity-60"
+              class="inline-flex h-28 cursor-pointer items-center gap-6 rounded-2 bg-emerald-500 px-18 text-12 font-semibold text-white transition-colors hover:bg-emerald-400 active:scale-97 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {#if saving}
                 <IconSpinner class="size-14" aria-hidden="true" />
@@ -320,7 +320,7 @@
             <button
               type="button"
               onclick={closeForm}
-              class="h-28 cursor-pointer rounded-2 px-14 text-xs font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
+              class="h-28 cursor-pointer rounded-2 px-14 text-12 font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
             >
               Cancel
             </button>
@@ -421,7 +421,7 @@
           {/each}
         </div>
       {:else}
-        <p class="mt-12 text-xs text-slate-400">No progress recorded yet.</p>
+        <p class="mt-12 text-12 text-slate-400">No progress recorded yet.</p>
       {/if}
     </div>
 
@@ -554,7 +554,7 @@
             <button
               type="submit"
               disabled={savingLocation}
-              class="inline-flex h-28 cursor-pointer items-center gap-6 rounded-2 bg-emerald-500 px-18 text-xs font-semibold text-white transition-colors hover:bg-emerald-400 active:scale-97 disabled:cursor-not-allowed disabled:opacity-60"
+              class="inline-flex h-28 cursor-pointer items-center gap-6 rounded-2 bg-emerald-500 px-18 text-12 font-semibold text-white transition-colors hover:bg-emerald-400 active:scale-97 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {#if savingLocation}
                 <IconSpinner class="size-14" aria-hidden="true" />
@@ -568,7 +568,7 @@
             <button
               type="button"
               onclick={closeLocationForm}
-              class="h-28 cursor-pointer rounded-2 px-14 text-xs font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
+              class="h-28 cursor-pointer rounded-2 px-14 text-12 font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
             >
               Cancel
             </button>
@@ -580,7 +580,7 @@
         <p
           id="location-error"
           role="alert"
-          class="mt-8 text-xs font-medium text-rose-300"
+          class="mt-8 text-12 font-medium text-rose-300"
         >
           {locationError}
         </p>
@@ -631,7 +631,7 @@
                     {/if}
                   </span>
                   <span class="min-w-0 flex-1">
-                    <span class="block truncate text-sm font-medium text-white"
+                    <span class="block truncate text-14 font-medium text-white"
                       >{location.name}</span
                     >
                     <span
@@ -681,7 +681,7 @@
           {/each}
         </ul>
       {:else}
-        <p class="mt-12 text-xs text-slate-400">No locations saved.</p>
+        <p class="mt-12 text-12 text-slate-400">No locations saved.</p>
       {/if}
     </div>
 
@@ -693,7 +693,7 @@
           >
             Weather forecast model
           </p>
-          <p class="mt-4 truncate text-sm font-semibold text-white">
+          <p class="mt-4 truncate text-14 font-semibold text-white">
             {modelList.find((m) => m.value === forecastModel)?.name ??
               "Not selected"}
           </p>
@@ -725,7 +725,7 @@
           {#each modelList as model (model.value)}
             {@const isActive = model.value === forecastModel}
             <label
-              class="flex cursor-pointer items-center gap-8 rounded-2 px-10 py-6 text-xs font-medium transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-emerald-400/50 {isActive
+              class="flex cursor-pointer items-center gap-8 rounded-2 px-10 py-6 text-12 font-medium transition-colors peer-focus-visible:ring-2 peer-focus-visible:ring-emerald-400/50 {isActive
                 ? 'bg-emerald-400/15 text-white ring-1 ring-emerald-400/40 ring-inset'
                 : 'bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white'}"
             >
@@ -758,8 +758,8 @@
   {:else}
     <div class="{CARD} flex flex-col items-center gap-12 p-32 text-center">
       <IconChartLineUp class="size-32 text-emerald-300" aria-hidden="true" />
-      <p class="text-sm font-medium text-white">No dashboard record</p>
-      <p class="max-w-[24ch] text-xs text-slate-300">
+      <p class="text-14 font-medium text-white">No dashboard record</p>
+      <p class="max-w-[24ch] text-12 text-slate-300">
         Add a row to <span class="font-mono text-slate-200"
           >dashboard_table</span
         > to see it here.

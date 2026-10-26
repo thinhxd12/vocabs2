@@ -24,6 +24,13 @@ aliases — do not use them.
 
 The v4 spacing scale is dynamic, so values such as `size-4.5` and `max-w-94.5` are valid.
 
+## Type scale
+
+Font sizes are px tokens declared in `layout.css` (`--text-7` … `--text-40`). Write
+`text-12`, `text-14`, `text-16`; never Tailwind's named sizes (`text-xs`, `text-sm`,
+`text-base`, `text-lg`). Applies to every class you add or edit, even in files that
+still contain `text-xs`/`text-sm` — do not copy the old style.
+
 If the editor reports a Tailwind `suggestCanonicalClasses` warning, apply the suggested class.
 
 ## Conventions
