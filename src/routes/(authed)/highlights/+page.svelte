@@ -1091,7 +1091,7 @@
           <textarea
             name="content"
             spellcheck="false"
-            class="book-field min-h-160 flex-1 resize-none"
+            class="book-field min-h-180 flex-1 resize-none"
             bind:value={highlightEdit.content}></textarea>
         </div>
 

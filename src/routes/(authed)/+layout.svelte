@@ -5,7 +5,7 @@
   import icescape from "#lib/assets/images/Icescape.jpg";
   import NavBar from "#lib/components/NavBar.svelte";
   import { BTN, BTN_ON } from "#lib/ui/button.ts";
-  import IconImage from "~icons/ph/image";
+  import TablerCircleLetterRFilled from "~icons/tabler/circle-letter-r-filled";
   import IconArrowCounterClockwise from "~icons/ph/arrow-counter-clockwise";
   import MaterialSymbolsVolumeUpRounded from "~icons/material-symbols/volume-up-rounded";
   import MaterialSymbolsVolumeOffRounded from "~icons/material-symbols/volume-off-rounded";
@@ -266,9 +266,9 @@
     {#if !videoSrc}
       <!-- The wallpaper's credit, two lines, clear of the button on the other side. -->
       <div
-        class="pointer-events-none hidden md:block fixed top-3 left-3 z-20 max-w-[calc(100vw-12rem)] text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.9),0_2px_10px_rgba(0,0,0,0.6)]"
+        class="pointer-events-none hidden md:block fixed top-3 left-3 z-20 max-w-1/3 text-white [text-shadow:0_1px_2px_rgba(0,0,0,0.9),0_2px_10px_rgba(0,0,0,0.6)]"
       >
-        <p class="truncate text-11.5 font-medium">{wallpaper.title}</p>
+        <p class="text-11.5 leading-snug font-medium">{wallpaper.title}</p>
         <p class="truncate text-10 text-white/80">{wallpaper.place}</p>
       </div>
     {/if}
@@ -289,7 +289,7 @@
             aria-hidden="true"
           />
         {:else}
-          <IconImage class="size-14" aria-hidden="true" />
+          <TablerCircleLetterRFilled class="size-14" aria-hidden="true" />
         {/if}
       </button>
 

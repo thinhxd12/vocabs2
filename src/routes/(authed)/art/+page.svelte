@@ -117,7 +117,7 @@
     ></div>
 
     <div
-      class="no-scrollbar flex flex-col gap-9 px-9 pt-9 pb-18 sm:px-32 lg:min-h-0 lg:flex-1 lg:gap-24 lg:overflow-y-auto lg:px-32 lg:pt-36 lg:pb-24"
+      class="no-scrollbar flex flex-col gap-3 px-9 pt-9 pb-18 sm:px-32 lg:min-h-0 lg:flex-1 lg:gap-24 lg:overflow-y-auto lg:px-32 lg:pt-36 lg:pb-24"
     >
       <header>
         <p
@@ -133,7 +133,7 @@
         <p class="mt-8 text-14 leading-24 text-slate-400">{art.image.attr}</p>
       </header>
 
-      <div class="flex items-center">
+      <div class="flex items-center gap-6">
         <img
           src={art.image.authorImage}
           alt=""

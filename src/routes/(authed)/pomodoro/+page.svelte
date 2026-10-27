@@ -23,7 +23,6 @@
   import MaterialSymbolsLightBackgroundGridSmallSharp from "~icons/material-symbols-light/background-grid-small-sharp";
   import MaterialSymbolsVolumeUpRounded from "~icons/material-symbols/volume-up-rounded";
   import MaterialSymbolsVolumeOffRounded from "~icons/material-symbols/volume-off-rounded";
-
   import focusImage from "#lib/assets/images/Hans Adam Weissenkircher-Helios on His Chariot.webp";
   import longbreakImage from "#lib/assets/images/Peder Mork Monsted-Figures Resting in a River Landscape.webp";
   import shortbreakImage from "#lib/assets/images/Giovanni Battista Tiepolo-Hermes.webp";
@@ -73,7 +72,7 @@
   /** The app's button (`#lib/ui/button.ts`) at the toolbar's 28px, so these
    *  tiles read as the navbar's dock, one size up. */
   const TILE = `${BTN} h-16 w-18`;
-  const TILE_ON = `${BTN_ON} h-16 w-18 !bg-green-400`;
+  const TILE_ON = `${BTN_ON} h-16 w-18 bg-green-400/60!`;
 
   const MODAL_PANEL =
     "flex h-[calc(100dvh_-_68px)] min-h-0 w-[min(94vw,23.625rem)] max-w-378 flex-col overflow-hidden rounded-[2px] bg-white text-black shadow-2xl";

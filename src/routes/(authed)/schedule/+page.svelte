@@ -279,7 +279,7 @@
 
 <section class="mx-auto w-full max-w-382 space-y-2 py-2">
   <div
-    class="overflow-hidden rounded-2 border border-white/10 bg-slate-800/70 shadow-[0_8px_40px_rgba(0,0,0,0.5)] backdrop-blur-lg"
+    class="overflow-hidden rounded-2 border border-white/10 glass-dark shadow-[0_8px_40px_rgba(0,0,0,0.5)]"
   >
     <!-- Month plate: `1.webp` … `12.webp`, full-bleed at the top of the card. -->
     <div class="relative aspect-3/2 w-full">
@@ -340,7 +340,7 @@
     </div>
 
     <!-- Date grid for the month above, on the card surface. -->
-    <div class="glass-input px-8 pt-6 pb-8 sm:px-10">
+    <div class="glass-dark px-8 pt-6 pb-8 sm:px-10">
       <table
         class="w-full table-fixed border-separate border-spacing-x-0 border-spacing-y-4"
       >
@@ -410,7 +410,7 @@
   <!-- Schedule: "Create" replaces the table with a fresh block of undated
        slots, "Edit" opens the rows the reviewer counts into — today's. -->
   <div
-    class="overflow-hidden rounded-2 border border-white/10 bg-slate-800/70 backdrop-blur-lg"
+    class="overflow-hidden rounded-2 border border-white/10 glass-dark"
   >
     <div
       class="flex items-baseline justify-between gap-12 border-b border-white/10 px-12 py-8"
@@ -635,7 +635,7 @@
   <!-- Five `progress_table` blocks per page, oldest first (`id` ascending),
        with the leftover rows on the first page so the last page is full. -->
   <div
-    class="overflow-hidden rounded-2 border border-white/10 bg-slate-800/70 backdrop-blur-lg"
+    class="overflow-hidden rounded-2 border border-white/10 glass-dark"
   >
     <div
       class="flex items-baseline justify-between gap-12 border-b border-white/10 px-12 py-8"

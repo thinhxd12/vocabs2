@@ -73,7 +73,7 @@
 				oninput={() => (dismissed = true)}
 				aria-invalid={errorMsg ? 'true' : undefined}
 				aria-describedby={errorMsg ? 'password-error' : undefined}
-				class="glass-input w-full rounded-full border border-white/10 px-20 py-8 text-center text-16 shadow-[0_8px_32px_rgba(0,0,0,0.45)] transition-colors placeholder:text-slate-300 focus:outline-none motion-reduce:transition-none"
+				class="glass-dark w-full rounded-full border border-white/10 px-20 py-8 text-center text-16 shadow-[0_8px_32px_rgba(0,0,0,0.45)] transition-colors placeholder:text-slate-300 focus:outline-none motion-reduce:transition-none"
 			/>
 
 			{#if loading}

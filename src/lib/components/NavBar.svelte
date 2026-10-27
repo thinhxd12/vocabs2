@@ -225,7 +225,7 @@
     </a>
 
     <!-- The dock: two rows, so eleven buttons fit the 384px bar. -->
-    <div class="flex min-w-0 flex-1 flex-col rounded-2 bg-slate-950/40 gap-1">
+    <div class="glass-dark flex min-w-0 flex-1 flex-col rounded-2 gap-1">
       <div class="flex min-h-0 flex-1 items-center justify-center gap-2">
         {#each primary as item (item.href)}
           {@const active = isActive(item.href)}
@@ -252,9 +252,11 @@
           aria-label={countdownRunning
             ? `${countdownText} left. Stop the timer`
             : `Start a ${QUICK_TIMER_MINUTES} minute timer`}
-          class={`${BTN} group relative h-16 min-w-18 ${countdownRunning
-            ? "min-w-36 !bg-black !text-white !shadow-none"
-            : ""}`}
+          class={`${BTN} group relative h-16 min-w-18 ${
+            countdownRunning
+              ? "min-w-36 bg-black! text-white! shadow-none!"
+              : ""
+          }`}
         >
           {#if countdownRunning}
             <span
@@ -290,7 +292,9 @@
           </a>
         {/each}
 
+        <!-- Wrapper must not create a line box, or the button breaks the flex row alignment. -->
         <form
+          class="contents"
           method="POST"
           action="/logout"
           use:enhance={() => {
