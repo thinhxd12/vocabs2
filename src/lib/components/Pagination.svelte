@@ -105,13 +105,16 @@
             "border-slate-200 bg-white text-black/80 placeholder:text-black/50 focus-visible:border-emerald-500",
         }
       : {
-          step: "border border-white/10 bg-slate-800/70 backdrop-blur-lg hover:border-white/25 hover:bg-slate-800/80 hover:text-white active:bg-white/15",
-          track: "border border-white/10 bg-slate-800/70 backdrop-blur-lg",
+          // Same surface as the `/schedule` panels (`glass-dark`): black half,
+          // printed grain and the app's 9px blur, rather than the blue-grey
+          // slate that read as a different material.
+          step: "border border-white/10 glass-dark hover:border-white/25 hover:bg-white/10 hover:text-white active:bg-white/15",
+          track: "border border-white/10 glass-dark",
           ghost:
             "font-normal text-slate-300 hover:bg-white/10 hover:text-white active:bg-white/15",
           gap: "text-slate-500",
           input:
-            "border-white/10 bg-slate-800/60 text-slate-400 placeholder:text-slate-400",
+            "border-white/10 bg-black/50 text-slate-400 placeholder:text-slate-400 backdrop-blur-lg",
         },
   );
 

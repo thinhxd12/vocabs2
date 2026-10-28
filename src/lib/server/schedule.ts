@@ -22,6 +22,9 @@ export const DAY_CAP = 18;
  *  counts are widened here. */
 export type ScheduleSlotRow = {
 	id: string;
+	/** The vocab window this slot covers; `progress_table.index` is written from
+	 *  the block's first slot, so it has to be read with the rest. */
+	index: number | string | null;
 	date: string | null;
 	count: number | string;
 };
@@ -67,7 +70,7 @@ export function openSlot(block: ScheduleSlotRow[], today: string) {
 export async function readBlock(locals: App.Locals) {
 	const { data, error } = await locals.supabase
 		.from('schedule_table')
-		.select('id, date, count')
+		.select('id, index, date, count')
 		.order('id', { ascending: true });
 
 	return { block: (data ?? []) as ScheduleSlotRow[], error };

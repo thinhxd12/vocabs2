@@ -1,6 +1,7 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
   import { afterNavigate, goto, refreshAll } from "$app/navigation";
+  import { navigating, page as current } from "$app/state";
   import { differenceInHours, differenceInMinutes } from "date-fns";
   import { onDestroy, onMount, untrack } from "svelte";
   import { prefersReducedMotion } from "svelte/motion";
@@ -224,6 +225,14 @@
   /** True while the next batch is being fetched, once a batch runs out. */
   let loading = $state(false);
 
+  /** True while the star's GET is loading a new batch: the tile swaps its glyph
+   *  for the same spinner the layout's background button uses. A navigation to
+   *  this page is always a batch load — the star form is the only in-page
+   *  navigation it has. */
+  const starting = $derived(
+    navigating.to?.url.pathname === current.url.pathname,
+  );
+
   /** The grade whose button is briefly lit, for keyboard feedback. */
   let flash = $state(0);
   let flashTimer: ReturnType<typeof setTimeout> | undefined;
@@ -444,11 +453,20 @@
     <form method="GET" class="flex items-center gap-3" onsubmit={clearSession}>
       <button
         type="submit"
+        disabled={starting}
+        aria-busy={starting}
         aria-label="Start a new batch"
         title="Start a new batch"
         class={TILE}
       >
-        <PhListStar class="size-14" aria-hidden="true" />
+        {#if starting}
+          <IconSpinner
+            class="size-14 animate-spin motion-reduce:animate-none"
+            aria-hidden="true"
+          />
+        {:else}
+          <PhListStar class="size-14" aria-hidden="true" />
+        {/if}
       </button>
 
       <input

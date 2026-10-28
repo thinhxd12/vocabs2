@@ -469,11 +469,11 @@ export const actions: Actions = {
  * part in the lookup. Reaching the cap stamps the row with today's date, which
  * claims the row for the day and keeps the next day's batches off it.
  *
- * The block is read whole rather than a row at a time: the same pass says whether
- * every slot is now dated and full, which is the block being finished. A finished
- * block is written to `progress_table` as the span its first and last slot cover
- * — on the batch that fills the last slot, and on no other, so a block left
- * complete until the next one is created cannot log itself over and over.
+ * The block is read whole rather than a row at a time, so the same pass says
+ * whether every slot is now dated and full: a finished block is written to
+ * `progress_table` by `logBlock`. A block that is already spent is handed to it
+ * too, so a write that failed — or a block filled outside the reviewer — is
+ * logged by the next batch instead of staying missing forever.
  *
  * "Today" is the reader's day, not the server's (`#lib/server/time.ts`), so a
  * batch finished at 08:00 in Tokyo is counted against the Tokyo day.
@@ -494,13 +494,16 @@ async function bumpSchedule(locals: App.Locals): Promise<TodaySchedule | null> {
 
   const row = openSlot(block, today);
 
-  // Every slot dated away from today: the block is spent, and no batch counts.
-  if (!row) return null;
+  // Every slot dated away from today: nothing is left to count, but a spent
+  // block that never reached `progress_table` is logged now.
+  if (!row) {
+    await logBlock(locals);
+    return null;
+  }
 
   const count = Number(row.count) + 1;
   const updated: { count: number; date?: string } =
     count >= DAY_CAP ? { count, date: today } : { count };
-  const wasFull = block.every(isFilled);
   const isFull = block.every((slot) =>
     slot.id === row.id ? isFilled(updated) : isFilled(slot),
   );
@@ -513,16 +516,54 @@ async function bumpSchedule(locals: App.Locals): Promise<TodaySchedule | null> {
   // The counter did not move, so the navbar tile must not move either.
   if (writeError) return null;
 
-  if (isFull && !wasFull) {
-    const start = slotDate(block[0]);
-    const end = slotDate(block[block.length - 1]);
-
-    if (start && end) {
-      await supabase
-        .from("progress_table")
-        .insert({ id: uuidv7(), start_date: start, end_date: end });
-    }
-  }
+  if (isFull) await logBlock(locals);
 
   return { date: today, count };
+}
+
+/**
+ * Writes a finished block to `progress_table` — the span its first and last
+ * slot cover, plus the vocab window it was counted from — once.
+ *
+ * The span is the row's key, so a block that is already logged (the reader
+ * grading more batches before the next schedule is created) writes nothing,
+ * and a write that failed is retried by the next batch. `progress_table.index`
+ * is not nullable, so it is filled from the block's first slot the way the
+ * legacy writer did, `0` when the slots carry none.
+ *
+ * Best-effort, like its caller: the review is already saved, so a failed write
+ * only leaves the row for the next batch to try again.
+ */
+async function logBlock(locals: App.Locals) {
+  const { block, error: readError } = await readBlock(locals);
+
+  if (readError || !block.length || !block.every(isFilled)) return;
+
+  const start = slotDate(block[0]);
+  const end = slotDate(block[block.length - 1]);
+  if (!start || !end) return;
+
+  const supabase = locals.supabase;
+  const { data: logged, error: lookupError } = await supabase
+    .from("progress_table")
+    .select("id")
+    .eq("start_date", start)
+    .eq("end_date", end)
+    .limit(1);
+
+  // Cannot tell whether the block is already there: leave it to the next batch
+  // rather than risk logging the same block twice.
+  if (lookupError) return;
+  if (logged?.length) return;
+
+  const { error: writeError } = await supabase.from("progress_table").insert({
+    id: uuidv7(),
+    index: Number(block[0].index) || 0,
+    start_date: start,
+    end_date: end,
+  });
+
+  // Silent by contract, but the console is the only place a missing column or a
+  // policy that refuses the insert would ever show.
+  if (writeError) console.error("[fsrs] progress write failed", writeError);
 }
