@@ -270,7 +270,7 @@
         type="button"
         onclick={() => shiftYear(-1)}
         aria-label="Previous year"
-        class="flex size-36 cursor-pointer items-center justify-center rounded-8 border border-slate-200 bg-white text-black/60 transition-colors hover:bg-slate-100 hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+        class="flex size-36 cursor-pointer items-center justify-center rounded-2 border border-slate-200 bg-white text-black/60 transition-colors hover:bg-slate-100 hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
       >
         <IconCaretLeft class="size-16" aria-hidden="true" />
       </button>
@@ -286,7 +286,7 @@
         type="button"
         onclick={() => shiftYear(1)}
         aria-label="Next year"
-        class="flex size-36 cursor-pointer items-center justify-center rounded-8 border border-slate-200 bg-white text-black/60 transition-colors hover:bg-slate-100 hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+        class="flex size-36 cursor-pointer items-center justify-center rounded-2 border border-slate-200 bg-white text-black/60 transition-colors hover:bg-slate-100 hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
       >
         <IconCaretRight class="size-16" aria-hidden="true" />
       </button>
@@ -385,7 +385,7 @@
     <div class="mt-auto" aria-live="polite">
       {#if selected && selected.enabled}
         <div
-          class="flex items-center gap-12 rounded-16 border border-emerald-300 bg-emerald-50 p-12"
+          class="flex items-center gap-12 rounded-2 border border-emerald-300 bg-emerald-50 p-12"
         >
           <div class="text-center">
             <p
@@ -411,7 +411,7 @@
         </div>
       {:else}
         <p
-          class="rounded-16 border border-slate-200 bg-slate-50 p-12 text-12 text-black/60"
+          class="rounded-2 border border-slate-200 bg-slate-50 p-12 text-12 text-black/60"
         >
           Pick a day to see the focus time recorded on it.
         </p>

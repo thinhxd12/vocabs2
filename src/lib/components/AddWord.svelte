@@ -40,13 +40,13 @@
   const canAdd = $derived(!!check && !check.existing);
 
   const FIELD =
-    "h-40 min-w-0 flex-1 rounded-8 border border-slate-300 bg-white px-12 text-14 text-black outline-hidden transition-colors duration-200 placeholder:text-black/50 focus-visible:border-emerald-600 focus-visible:ring-1 focus-visible:ring-emerald-600/30 motion-reduce:transition-none";
+    "h-40 min-w-0 flex-1 rounded-2 border border-slate-300 bg-white px-12 text-14 text-black outline-hidden transition-colors duration-200 placeholder:text-black/50 focus-visible:border-emerald-600 focus-visible:ring-1 focus-visible:ring-emerald-600/30 motion-reduce:transition-none";
 
   const CHECK_BTN =
-    "inline-flex h-40 shrink-0 cursor-pointer touch-manipulation items-center justify-center gap-6 rounded-8 border border-slate-300 bg-slate-50 px-12 text-12 font-semibold text-black/80 transition-colors duration-200 hover:bg-slate-100 hover:text-black disabled:cursor-wait disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 motion-reduce:transition-none";
+    "inline-flex h-40 shrink-0 cursor-pointer touch-manipulation items-center justify-center gap-6 rounded-2 border border-slate-300 bg-slate-50 px-12 text-12 font-semibold text-black/80 transition-colors duration-200 hover:bg-slate-100 hover:text-black disabled:cursor-wait disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 motion-reduce:transition-none";
 
   const NOTICE =
-    "rounded-8 border px-12 py-8 text-11.5 leading-snug";
+    "rounded-2 border px-12 py-8 text-11.5 leading-snug";
 
   function reset() {
     lookupId += 1;
@@ -108,7 +108,7 @@
 
 <Modal bind:showModal label="Add a word" onclose={reset}>
   <div
-    class="relative flex max-h-[min(84dvh,38rem)] w-[min(94vw,23.625rem)] max-w-378 flex-col overflow-hidden rounded-[2px] bg-white text-black shadow-2xl"
+    class="relative flex max-h-[min(84dvh,38rem)] w-[min(94vw,23.625rem)] max-w-378 flex-col overflow-hidden rounded-2 bg-white text-black shadow-2xl"
   >
     <div
       class="flex h-48 shrink-0 items-center bg-black pr-48 pl-16"
@@ -245,7 +245,7 @@
           <button
             type="submit"
             disabled={adding}
-            class="h-40 w-full cursor-pointer touch-manipulation rounded-8 bg-emerald-600 text-14 font-semibold text-white transition-colors duration-200 hover:bg-emerald-500 disabled:cursor-wait disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 motion-reduce:transition-none"
+            class="h-40 w-full cursor-pointer touch-manipulation rounded-2 bg-emerald-600 text-14 font-semibold text-white transition-colors duration-200 hover:bg-emerald-500 disabled:cursor-wait disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 motion-reduce:transition-none"
           >
             {adding ? "Adding…" : "Add to reviews"}
           </button>
@@ -260,7 +260,7 @@
       type="button"
       onclick={() => (showModal = false)}
       aria-label="Close"
-      class="absolute top-6 right-8 inline-flex size-36 shrink-0 cursor-pointer touch-manipulation items-center justify-center rounded-8 text-slate-200 transition-colors duration-200 hover:bg-white/15 hover:text-white focus-visible:outline-2 focus-visible:outline-emerald-300 motion-reduce:transition-none"
+      class="absolute top-6 right-8 inline-flex size-36 shrink-0 cursor-pointer touch-manipulation items-center justify-center rounded-2 text-slate-200 transition-colors duration-200 hover:bg-white/15 hover:text-white focus-visible:outline-2 focus-visible:outline-emerald-300 motion-reduce:transition-none"
     >
       <IconX class="size-16" aria-hidden="true" />
     </button>

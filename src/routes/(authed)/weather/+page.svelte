@@ -44,8 +44,8 @@
   const CARD =
     'relative flex flex-col overflow-hidden rounded-2 border border-white/10 bg-black/40 p-12 backdrop-blur-sm';
   const LABEL =
-    'text-10 font-semibold uppercase tracking-[0.14em] text-white/55';
-  const MUTED = 'text-10.5 leading-snug text-white/60';
+    'text-11 font-semibold uppercase tracking-[0.14em] text-white/55';
+  const MUTED = 'text-11.5 leading-snug text-white/60';
 
   /**
    * The hero is a video, but the videos are optional on a fresh checkout (and
@@ -334,7 +334,7 @@
 </script>
 
 <svelte:head>
-  <title>Weather</title>
+  <title>weather</title>
 </svelte:head>
 
 <Container scrollable class="gap-3 pt-0 pb-16">
@@ -374,10 +374,6 @@
             class="absolute inset-0 -z-10 h-full w-full object-cover object-top opacity-80"
           ></video>
         {/key}
-        <div
-          aria-hidden="true"
-          class="absolute inset-0 -z-10 bg-linear-to-b from-slate-950/15 via-slate-950/5 to-slate-950/85"
-        ></div>
       {/if}
 
       <div class="flex flex-col items-center px-16 pt-14 pb-20 text-center">
@@ -567,19 +563,19 @@
             </div>
 
             <div class="min-w-0">
-              <p class="text-9 text-white/55">From</p>
-              <p class="text-11 font-medium text-white">
+              <p class="text-10 text-white/55">From</p>
+              <p class="text-12 font-medium text-white">
                 {wx.wind.directionLabel}
-                <span class="text-9 text-white/55"
+                <span class="text-10 text-white/55"
                   >{wx.wind.direction}°</span
                 >
               </p>
-              <p class="mt-6 text-9 text-white/55">Speed</p>
-              <p class="text-11 font-medium text-white">
+              <p class="mt-6 text-10 text-white/55">Speed</p>
+              <p class="text-12 font-medium text-white">
                 {wx.wind.speed}
-                <span class="text-9 text-white/55">km/h</span>
+                <span class="text-10 text-white/55">km/h</span>
               </p>
-              <p class="mt-2 text-9 text-white/55">
+              <p class="mt-2 text-10 text-white/55">
                 Gusts {wx.wind.gusts} km/h
               </p>
             </div>
@@ -594,7 +590,7 @@
             />
           </div>
 
-          <p class="mt-4 text-9.5 leading-snug text-white/55">
+          <p class="mt-4 text-10.5 leading-snug text-white/55">
             {wx.wind.description}
           </p>
         </div>
@@ -610,13 +606,13 @@
                 alt=""
                 class="size-56 rounded-full object-cover object-bottom"
               />
-              <p class="mt-8 text-13 font-semibold text-white">
+              <p class="mt-8 text-14 font-semibold text-white">
                 {wx.precipitation.amount}
               </p>
-              <p class="text-9.5 text-white/50">in 15 minutes</p>
+              <p class="text-10.5 text-white/50">in 15 minutes</p>
             {:else}
               <p class="text-24 font-light text-white">None</p>
-              <p class="mt-2 text-9.5 text-white/50">
+              <p class="mt-2 text-10.5 text-white/50">
                 {wx.precipitation.description}
               </p>
             {/if}
@@ -675,10 +671,10 @@
                 </span>
               </div>
             </div>
-            <p class="mt-4 text-11 font-medium text-white">
+            <p class="mt-4 text-12 font-medium text-white">
               {wx.uv.level}
             </p>
-            <p class="mt-2 line-clamp-2 text-center text-9 leading-tight text-white/50">
+            <p class="mt-2 line-clamp-2 text-center text-10 leading-tight text-white/50">
               {wx.uv.description}
             </p>
           </div>
@@ -697,11 +693,11 @@
               ></span>
             </div>
             <div class="min-w-0">
-              <p class="text-17 leading-none font-light text-white">
+              <p class="text-18 leading-none font-light text-white">
                 {wx.pressure.value}
-                <span class="text-9 text-white/50">hPa</span>
+                <span class="text-10 text-white/50">hPa</span>
               </p>
-              <p class="mt-4 text-9.5 leading-tight text-white/55">
+              <p class="mt-4 text-10.5 leading-tight text-white/55">
                 {wx.pressure.description}
               </p>
             </div>
@@ -721,12 +717,12 @@
               ></div>
             </div>
             <div class="min-w-0">
-              <p class="text-9 text-white/55">Relative humidity</p>
-              <p class="text-14 font-medium text-white">
+              <p class="text-10 text-white/55">Relative humidity</p>
+              <p class="text-15 font-medium text-white">
                 {wx.humidity.value}%
               </p>
-              <p class="mt-6 text-9 text-white/55">Dew point</p>
-              <p class="text-14 font-medium text-white">
+              <p class="mt-6 text-10 text-white/55">Dew point</p>
+              <p class="text-15 font-medium text-white">
                 {wx.humidity.dewpoint}°
               </p>
             </div>
@@ -741,10 +737,10 @@
               alt=""
               class="size-56 rounded-full object-cover"
             />
-            <p class="mt-8 text-13 font-semibold text-white">
+            <p class="mt-8 text-14 font-semibold text-white">
               {wx.cloud.value}%
             </p>
-            <p class="text-9.5 text-white/50">{wx.cloud.description}</p>
+            <p class="text-10.5 text-white/50">{wx.cloud.description}</p>
           </div>
         </div>
 
@@ -752,7 +748,7 @@
           <p class={LABEL}>Visibility</p>
           <p class="text-32 leading-none font-light text-white">
             {wx.visibility.value}
-            <span class="text-12 text-white/50">km</span>
+            <span class="text-13 text-white/50">km</span>
           </p>
           <p class={MUTED}>{wx.visibility.description}</p>
         </div>
@@ -817,14 +813,14 @@
           </div>
           <div class="flex items-end justify-between">
             <div class="flex flex-col">
-              <span class="text-9 text-white/55">Sunrise</span>
-              <span class="text-12 font-medium text-white">
+              <span class="text-10 text-white/55">Sunrise</span>
+              <span class="text-13 font-medium text-white">
                 {wx.sun.sunrise}
               </span>
             </div>
             <div class="flex flex-col items-end">
-              <span class="text-9 text-white/55">Sunset</span>
-              <span class="text-12 font-medium text-white">
+              <span class="text-10 text-white/55">Sunset</span>
+              <span class="text-13 font-medium text-white">
                 {wx.sun.sunset}
               </span>
             </div>
@@ -863,21 +859,21 @@
                 />
               </svg>
               <div class="flex flex-col items-center">
-                <span class="text-15 font-semibold text-white">
+                <span class="text-16 font-semibold text-white">
                   {wx.air.value}
                 </span>
-                <span class="text-8 text-white/55">AQI</span>
+                <span class="text-9 text-white/55">AQI</span>
               </div>
             </div>
 
             <span
-              class="mt-6 rounded-full px-8 py-2 text-9 font-semibold text-black"
+              class="mt-6 rounded-full px-8 py-2 text-10 font-semibold text-black"
               style="background-color: {wx.air.color}"
             >
               {wx.air.level}
             </span>
           </div>
-          <p class="line-clamp-2 text-center text-9 leading-tight text-white/50">
+          <p class="line-clamp-2 text-center text-10 leading-tight text-white/50">
             {wx.air.description}
           </p>
         </div>
@@ -891,10 +887,10 @@
                 alt=""
                 class="size-56 rounded-full object-cover"
               />
-              <p class="mt-8 text-13 font-semibold text-white">
+              <p class="mt-8 text-14 font-semibold text-white">
                 {wx.snow.depth}
               </p>
-              <p class="text-9.5 text-white/50">{wx.snow.description}</p>
+              <p class="text-10.5 text-white/50">{wx.snow.description}</p>
             </div>
           </div>
         {/if}
@@ -911,9 +907,9 @@
                 class="flex flex-col overflow-hidden rounded-2 border border-white/10 bg-black/40 backdrop-blur-sm"
               >
                 <p
-                  class="py-4 text-center text-11 font-semibold text-white/85 tabular-nums"
+                  class="py-4 text-center text-12 font-semibold text-white/85 tabular-nums"
                 >
-                  {hour.label.hour}<span class="text-7.5 text-white/55"
+                  {hour.label.hour}<span class="text-8 text-white/55"
                     >{hour.label.period}</span
                   >
                 </p>
@@ -932,17 +928,17 @@
                     class="relative size-32 object-contain drop-shadow-[0_1px_4px_rgba(2,6,23,0.6)]"
                   />
                   <p
-                    class="relative mt-2 line-clamp-1 text-center text-8 leading-tight text-white/85"
+                    class="relative mt-2 line-clamp-1 text-center text-9 leading-tight text-white/85"
                   >
                     {hour.description}
                   </p>
                   <p
-                    class="relative mt-2 text-12.5 font-medium text-white"
+                    class="relative mt-2 text-14 font-medium text-white"
                   >
                     {formatTemperature(hour.temp)}
                   </p>
                   {#if hour.precipitation}
-                    <p class="relative text-9 font-medium text-sky-200">
+                    <p class="relative text-10 font-medium text-sky-200">
                       {hour.precipitation}%
                     </p>
                   {/if}
@@ -961,10 +957,10 @@
           <div class="flex w-full flex-col gap-3">
             {#each wx.forecastDays as day (day.date)}
               <div
-                class="flex h-52 w-full items-center gap-6 rounded-2 border border-white/10 bg-black/40 px-10 backdrop-blur-sm"
+                class="flex h-44 w-full items-center gap-6 rounded-2 border border-white/10 bg-black/40 px-10 backdrop-blur-sm"
               >
                 <span
-                  class="w-36 shrink-0 text-11.5 font-medium text-white/85"
+                  class="w-36 shrink-0 text-12.5 font-medium text-white/85"
                 >
                   {formatDay(day.date, wx.time)}
                 </span>
@@ -974,18 +970,18 @@
                   class="size-26 shrink-0 object-contain"
                 />
                 <span
-                  class="w-28 shrink-0 text-center text-9.5 font-semibold text-sky-300 tabular-nums"
+                  class="w-28 shrink-0 text-center text-10.5 font-semibold text-sky-300 tabular-nums"
                 >
                   {#if day.precipitation}{day.precipitation}%{/if}
                 </span>
                 <span
-                  class="min-w-0 flex-1 truncate text-9.5 text-white/55"
+                  class="min-w-0 flex-1 truncate text-10.5 text-white/55"
                 >
                   {day.description}
                 </span>
                 <div class="flex w-84 shrink-0 items-center justify-end gap-4">
                   <span
-                    class="w-22 text-right text-10 text-white/55 tabular-nums"
+                    class="w-22 text-right text-11 text-white/55 tabular-nums"
                   >
                     {day.low}°
                   </span>
@@ -998,7 +994,7 @@
                     ></div>
                   </div>
                   <span
-                    class="w-22 text-10 font-medium text-white tabular-nums"
+                    class="w-22 text-11 font-medium text-white tabular-nums"
                   >
                     {day.high}°
                   </span>

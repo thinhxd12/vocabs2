@@ -40,9 +40,9 @@
   const HEADER =
     "flex h-48 shrink-0 items-center justify-between gap-8 bg-black pr-8 pl-16 text-white";
   const CLOSE =
-    "flex size-36 shrink-0 cursor-pointer items-center justify-center rounded-8 text-slate-200 transition-colors hover:bg-white/15 hover:text-white focus-visible:outline-2 focus-visible:outline-emerald-300";
+    "flex size-36 shrink-0 cursor-pointer items-center justify-center rounded-2 text-slate-200 transition-colors hover:bg-white/15 hover:text-white focus-visible:outline-2 focus-visible:outline-emerald-300";
   const FIELD =
-    "w-full rounded-8 border border-slate-300 bg-white px-12 py-8 text-14 text-black outline-hidden transition-colors placeholder:text-black/50 focus-visible:border-emerald-600 focus-visible:ring-1 focus-visible:ring-emerald-600/30";
+    "w-full rounded-2 border border-slate-300 bg-white px-12 py-8 text-14 text-black outline-hidden transition-colors placeholder:text-black/50 focus-visible:border-emerald-600 focus-visible:ring-1 focus-visible:ring-emerald-600/30";
   const LABEL = "mb-6 block text-12 font-medium text-black/70";
 
   // Seeded from the server load, then owned locally while the reader flips
@@ -982,7 +982,7 @@
         <button
           type="button"
           onclick={openInsert}
-          class="mt-8 h-36 cursor-pointer rounded-8 bg-emerald-400 px-16 text-12 font-semibold text-slate-950 transition-colors hover:bg-emerald-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
+          class="mt-8 h-30 cursor-pointer rounded-2 bg-emerald-400 px-16 text-12 font-semibold text-slate-950 transition-colors hover:bg-emerald-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
         >
           Import highlights
         </button>
@@ -1079,7 +1079,7 @@
             {#each [{ label: "Open paragraph", tag: "<p>" }, { label: "Close paragraph", tag: "</p>" }, { label: "Open quote", tag: "<cite>" }, { label: "Close quote", tag: "</cite>" }] as helper (helper.label)}
               <button
                 type="button"
-                class="h-28 cursor-pointer rounded-6 border border-slate-300 bg-slate-50 px-8 font-mono text-10 text-black/70 transition-colors hover:bg-slate-100 hover:text-black"
+                class="h-28 cursor-pointer rounded-2 border border-slate-300 bg-slate-50 px-8 font-mono text-10 text-black/70 transition-colors hover:bg-slate-100 hover:text-black"
                 aria-label="Copy {helper.label} tag"
                 onclick={() =>
                   navigator.clipboard.writeText(helper.tag).catch(() => {})}
@@ -1099,13 +1099,13 @@
           <button
             type="submit"
             disabled={isSubmitting}
-            class="h-36 cursor-pointer rounded-8 bg-emerald-600 px-16 text-12 font-semibold text-white transition-colors hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+            class="h-30 cursor-pointer rounded-2 bg-emerald-600 px-16 text-12 font-semibold text-white transition-colors hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
           >
             {isSubmitting ? "Saving…" : "Save"}
           </button>
           <button
             type="button"
-            class="h-36 cursor-pointer rounded-8 px-12 text-12 font-medium text-black/70 transition-colors hover:bg-slate-100 hover:text-black"
+            class="h-30 cursor-pointer rounded-2 px-12 text-12 font-medium text-black/70 transition-colors hover:bg-slate-100 hover:text-black"
             onclick={() => (showEdit = false)}
           >
             Cancel
@@ -1179,13 +1179,13 @@
           <button
             type="submit"
             disabled={isSubmitting}
-            class="h-36 cursor-pointer rounded-8 bg-emerald-600 px-16 text-12 font-semibold text-white transition-colors hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+            class="h-30 rounded-2 bg-emerald-600 px-16 text-12 font-semibold text-white transition-colors hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
           >
             {isSubmitting ? "Importing…" : "Import"}
           </button>
           <button
             type="button"
-            class="h-36 cursor-pointer rounded-8 px-12 text-12 font-medium text-black/70 transition-colors hover:bg-slate-100 hover:text-black"
+            class="h-30 cursor-pointer rounded-2 px-12 text-12 font-medium text-black/70 transition-colors hover:bg-slate-100 hover:text-black"
             onclick={() => (showInsert = false)}
           >
             Cancel
@@ -1201,7 +1201,7 @@
             Latest highlights
           </p>
           <div
-            class="min-h-0 flex-1 overflow-auto rounded-8 border border-slate-300"
+            class="min-h-0 flex-1 overflow-auto rounded-2 border border-slate-300"
           >
             <table class="w-full text-left text-11">
               <thead class="bg-slate-50 text-black/60">
@@ -1226,7 +1226,7 @@
           </div>
         {:else}
           <div
-            class="flex flex-1 items-center justify-center rounded-8 border border-dashed border-slate-300 px-16 text-center"
+            class="flex flex-1 items-center justify-center rounded-2 border border-dashed border-slate-300 px-16 text-center"
           >
             <p class="max-w-[24ch] text-11 leading-relaxed text-black/60">
               Imported highlights will be listed here.
@@ -1262,7 +1262,7 @@
       <div class="mt-16 flex items-center justify-end gap-8">
         <button
           type="button"
-          class="h-36 cursor-pointer rounded-8 px-12 text-12 font-medium text-black/70 transition-colors hover:bg-slate-100 hover:text-black"
+          class="h-30 cursor-pointer rounded-2 px-12 text-12 font-medium text-black/70 transition-colors hover:bg-slate-100 hover:text-black"
           onclick={() => (showDelete = false)}
         >
           Cancel
@@ -1270,7 +1270,7 @@
         <button
           type="button"
           disabled={deleting}
-          class="h-36 cursor-pointer rounded-8 bg-red-600 px-16 text-12 font-semibold text-white transition-colors hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-60"
+          class="h-30 rounded-2 bg-red-600 px-16 text-12 font-semibold text-white transition-colors hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-60"
           onclick={deleteHighlight}
         >
           {deleting ? "Deleting…" : "Delete"}
@@ -1779,7 +1779,8 @@
     color: rgba(30, 25, 21, 0.35);
   }
 
-  .book-field::selection {
+  .book-field::selection,
+  .note-page textarea::selection {
     background-color: #fef135;
     color: #1e1915;
   }

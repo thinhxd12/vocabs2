@@ -75,25 +75,25 @@
   const TILE_ON = `${BTN_ON} h-16 w-18 bg-green-400/60!`;
 
   const MODAL_PANEL =
-    "flex h-[calc(100dvh_-_68px)] min-h-0 w-[min(94vw,23.625rem)] max-w-378 flex-col overflow-hidden rounded-[2px] bg-white text-black shadow-2xl";
+    "flex h-[calc(100dvh_-_68px)] min-h-0 w-[min(94vw,23.625rem)] max-w-378 flex-col overflow-hidden rounded-2 bg-white text-black shadow-2xl";
 
   /* Settings already read well; keep its compact, centred form. */
   const MODAL_PANEL_COMPACT =
-    "flex max-h-[min(84dvh,38rem)] w-[min(94vw,23.625rem)] max-w-378 flex-col overflow-hidden rounded-[2px] bg-white text-black shadow-2xl";
+    "flex max-h-[min(84dvh,38rem)] w-[min(94vw,23.625rem)] max-w-378 flex-col overflow-hidden rounded-2 bg-white text-black shadow-2xl";
 
   const MODAL_HEADER =
     "flex h-48 shrink-0 items-center justify-between gap-8 bg-black pr-8 pl-16 text-white";
 
   const MODAL_CLOSE =
-    "flex size-36 shrink-0 cursor-pointer items-center justify-center rounded-8 text-slate-200 transition-colors hover:bg-white/15 hover:text-white focus-visible:outline-2 focus-visible:outline-emerald-300";
+    "flex size-36 shrink-0 cursor-pointer items-center justify-center rounded-2 text-slate-200 transition-colors hover:bg-white/15 hover:text-white focus-visible:outline-2 focus-visible:outline-emerald-300";
 
   /** The heatmap keeps 31 fixed 10px columns, so its panel runs a little wider
    *  and only as tall as the grid needs. */
   const MODAL_PANEL_WIDE =
-    "flex max-h-[min(84dvh,44rem)] min-h-0 w-[min(96vw,28rem)] max-w-448 flex-col overflow-hidden rounded-[2px] bg-white text-black shadow-2xl";
+    "flex max-h-[min(84dvh,44rem)] min-h-0 w-[min(96vw,28rem)] max-w-448 flex-col overflow-hidden rounded-2 bg-white text-black shadow-2xl";
 
   const NUM_INPUT =
-    "h-36 w-full rounded-8 border border-slate-300 bg-white px-10 font-rubik text-14 text-black tabular-nums outline-hidden transition-colors placeholder:text-black/50 focus-visible:border-emerald-500 focus-visible:ring-1 focus-visible:ring-emerald-500/30 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [appearance:textfield]";
+    "h-36 w-full rounded-2 border border-slate-300 bg-white px-10 font-rubik text-14 text-black tabular-nums outline-hidden transition-colors placeholder:text-black/50 focus-visible:border-emerald-500 focus-visible:ring-1 focus-visible:ring-emerald-500/30 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [appearance:textfield]";
 
   const todayDate = todayISO();
 
@@ -827,7 +827,7 @@
       </p>
 
       <div
-        class="flex items-center justify-between gap-12 rounded-12 border border-slate-200 bg-slate-50 p-12"
+        class="flex items-center justify-between gap-12 rounded-2 border border-slate-200 bg-slate-50 p-12"
       >
         <div class="flex min-w-0 items-start gap-10">
           <IconSun
@@ -884,7 +884,7 @@
       <button
         type="button"
         onclick={() => (showSettings = false)}
-        class="h-36 cursor-pointer rounded-8 bg-emerald-600 px-16 text-12 font-semibold text-white transition-colors hover:bg-emerald-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 active:scale-97 motion-reduce:transition-none"
+        class="h-36 cursor-pointer rounded-2 bg-emerald-600 px-16 text-12 font-semibold text-white transition-colors hover:bg-emerald-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 active:scale-97 motion-reduce:transition-none"
       >
         Done
       </button>

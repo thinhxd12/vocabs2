@@ -157,12 +157,12 @@
 
   // Schedule controls: one surface per action, matching the dashboard's forms.
   const BUTTON =
-    "inline-flex h-28 shrink-0 touch-manipulation cursor-pointer items-center gap-6 rounded-6 px-12 text-12 font-semibold transition-colors outline-offset-2 focus-visible:outline-2 focus-visible:outline-emerald-300 disabled:cursor-not-allowed disabled:opacity-60 motion-reduce:transition-none";
-  const BUTTON_CREATE = `${BUTTON} bg-emerald-500 text-white hover:bg-emerald-400 active:scale-97`;
-  const BUTTON_DANGER = `${BUTTON} bg-red-500 text-white hover:bg-red-400 active:scale-97`;
+    "inline-flex h-28 shrink-0 touch-manipulation cursor-pointer items-center gap-6 rounded-2 px-12 text-12 font-semibold transition-colors outline-offset-2 focus-visible:outline-2 focus-visible:outline-emerald-300 disabled:cursor-not-allowed disabled:opacity-60 motion-reduce:transition-none";
+  const BUTTON_CREATE = `${BUTTON} text-white border border-white/15 bg-white/5 hover:bg-white/10 hover:text-emerald-400`;
+  const BUTTON_DANGER = `${BUTTON} text-white border border-white/15 bg-white/5 hover:bg-red-300 hover:text-red-500`;
   const BUTTON_EDIT = `${BUTTON} border border-white/15 bg-white/5 text-slate-200 hover:bg-white/10 hover:text-white`;
   const BUTTON_EDIT_OPEN = `${BUTTON} border border-white/15 bg-white/10 text-white`;
-  const BUTTON_CANCEL = `${BUTTON} px-14 font-medium text-slate-300 hover:bg-white/5 hover:text-white`;
+  const BUTTON_CANCEL = `${BUTTON} px-14 text-white border border-white/15 bg-white/5 hover:bg-white/10`;
 
   const FIELD_BASE =
     "h-32 min-w-0 w-full rounded-6 border bg-white/8 px-8 text-12 text-white backdrop-blur-sm transition-colors outline-hidden placeholder:text-slate-400 focus-visible:bg-white/12 focus-visible:ring-1";
@@ -332,7 +332,7 @@
           type="button"
           onclick={goToToday}
           disabled={isCurrentMonth}
-          class="shrink-0 touch-manipulation rounded-full border border-white/15 bg-black/40 px-12 py-4 text-11 font-medium text-white backdrop-blur-sm transition-colors hover:bg-black/60 active:bg-black/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300 disabled:cursor-not-allowed disabled:opacity-40 motion-reduce:transition-none"
+          class="shrink-0 cursor-pointer touch-manipulation rounded-2 border border-white/15 bg-black/40 px-12 py-4 text-11 font-medium text-white backdrop-blur-sm transition-colors hover:bg-black/60 active:bg-black/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300 disabled:cursor-not-allowed disabled:opacity-40 motion-reduce:transition-none"
         >
           Today
         </button>
@@ -409,9 +409,7 @@
 
   <!-- Schedule: "Create" replaces the table with a fresh block of undated
        slots, "Edit" opens the rows the reviewer counts into — today's. -->
-  <div
-    class="overflow-hidden rounded-2 border border-white/10 glass-dark"
-  >
+  <div class="overflow-hidden rounded-2 border border-white/10 glass-dark">
     <div
       class="flex items-baseline justify-between gap-12 border-b border-white/10 px-12 py-8"
     >
@@ -465,10 +463,6 @@
         </button>
 
         {#if confirmingCreate}
-          <p role="status" class="text-10 font-medium text-red-500">
-            This discards every row in the schedule.
-          </p>
-
           <button type="button" onclick={cancelCreate} class={BUTTON_CANCEL}>
             Cancel
           </button>
@@ -634,9 +628,7 @@
 
   <!-- Five `progress_table` blocks per page, oldest first (`id` ascending),
        with the leftover rows on the first page so the last page is full. -->
-  <div
-    class="overflow-hidden rounded-2 border border-white/10 glass-dark"
-  >
+  <div class="overflow-hidden rounded-2 border border-white/10 glass-dark">
     <div
       class="flex items-baseline justify-between gap-12 border-b border-white/10 px-12 py-8"
     >

@@ -290,15 +290,15 @@
   const NAV =
     "relative inline-flex size-36 touch-manipulation items-center justify-center rounded-2 border border-white/15 bg-black/40 text-white backdrop-blur-sm transition-colors before:absolute before:-inset-4 before:content-[''] hover:bg-black/60 active:bg-black/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300 disabled:cursor-not-allowed disabled:opacity-40 motion-reduce:transition-none";
 
-  /** Shared shell for the dialog's two actions. */
+  /** Same pill actions as the schedule card. */
   const BTN =
-    "inline-flex h-28 shrink-0 touch-manipulation items-center justify-center gap-6 rounded-2 px-12 text-12 font-semibold transition-colors duration-200 outline-offset-2 focus-visible:outline-2 focus-visible:outline-emerald-600 disabled:cursor-not-allowed disabled:opacity-40 motion-reduce:transition-none";
+    "inline-flex h-28 shrink-0 touch-manipulation items-center gap-6 rounded-2 px-12 text-12 font-semibold transition-colors outline-offset-2 focus-visible:outline-2 focus-visible:outline-emerald-300 disabled:cursor-not-allowed disabled:opacity-60 motion-reduce:transition-none";
 
-  const SAVE = `${BTN} bg-emerald-500 text-white hover:bg-emerald-400 active:bg-emerald-600`;
-  const DELETE = `${BTN} border border-red-500/40 bg-red-50 text-red-600 hover:bg-red-100 active:bg-red-200`;
+  const SAVE = `${BTN} border border-white/15 bg-white/5 text-white hover:bg-white/10 hover:text-emerald-400`;
+  const DELETE = `${BTN} border border-white/15 bg-white/5 text-white hover:bg-red-300 hover:text-red-500`;
 
   const MODAL_PANEL =
-    "flex h-[calc(100dvh_-_68px)] min-h-0 w-[min(94vw,34rem)] flex-col overflow-hidden rounded-2 bg-white text-black shadow-2xl";
+    "flex h-[calc(100dvh_-_68px)] min-h-0 w-[94vw] max-w-382 flex-col overflow-hidden rounded-2 bg-white text-black shadow-2xl";
 
   const MODAL_HEADER =
     "flex h-48 shrink-0 items-center justify-between gap-8 bg-black pr-8 pl-16 text-white";
@@ -548,10 +548,10 @@
         ></textarea>
 
         <div
-          class="flex flex-wrap items-center gap-8 border-t border-slate-200 bg-slate-50 px-12 py-8"
+          class="flex flex-wrap items-center gap-8 border-t border-white/10 bg-black px-12 py-8"
         >
           <button type="submit" formaction="?/save" disabled={busy} class={SAVE}>
-            <IconFloppyDisk class="size-16" aria-hidden="true" />
+            <IconFloppyDisk class="size-14" aria-hidden="true" />
             Save
           </button>
           <button
@@ -561,7 +561,7 @@
             disabled={!hasEntry || busy}
             class={DELETE}
           >
-            <IconTrash class="size-16" aria-hidden="true" />
+            <IconTrash class="size-14" aria-hidden="true" />
             Delete
           </button>
 
@@ -569,8 +569,8 @@
             id="diary-status"
             aria-live="polite"
             class="ml-auto min-w-0 truncate text-11 font-medium {errorMsg
-              ? 'text-red-600'
-              : 'text-emerald-600'}"
+              ? 'text-rose-300'
+              : 'text-emerald-300'}"
           >
             {errorMsg || flash}
           </span>
