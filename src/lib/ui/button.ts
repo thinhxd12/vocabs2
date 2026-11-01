@@ -16,7 +16,7 @@ const BASE =
 	'inline-flex shrink-0 cursor-pointer touch-manipulation items-center justify-center rounded-2 transition-[color,background-color,box-shadow] duration-100 focus-visible:outline-2 focus-visible:outline-emerald-300 active:scale-95 disabled:opacity-60 motion-reduce:transition-none motion-reduce:active:scale-100';
 
 /** Resting chip: `.btn-nav`. */
-export const BTN = `${BASE} bg-white/20 text-black/60 ring-1 ring-black/5 shadow-sm shadow-black/30 hover:bg-white/40 hover:text-black`;
+export const BTN = `${BASE} bg-white/20 text-black/80 ring-1 ring-black/5 shadow-sm shadow-black/30 hover:bg-white/40 hover:text-black`;
 
 /** Selected chip: `.btn-nav.active`. */
 export const BTN_ON = `${BASE} bg-white/60 text-black ring-1 ring-black/5 shadow-sm shadow-black/30`;

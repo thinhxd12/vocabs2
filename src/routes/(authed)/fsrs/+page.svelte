@@ -35,35 +35,35 @@
   /** Rating buttons, darkest to lightest.
    *
    *  The row sits under the medallion and must not compete with it, so it is
-   *  drawn in warm black rather than the circle's metal: four steps of the same
-   *  stone, from near-black at `Again` to charcoal at `Easy`. Lightness still
-   *  carries the ramp, the labels still name the grade, and the printed grain
-   *  (`glass-noise`) keeps the paper texture the metal used to bring. */
+   *  drawn in black at four steps of opacity rather than the circle's metal:
+   *  near-solid at `Again`, letting the wallpaper through at `Easy`. Lightness
+   *  still carries the ramp, the labels still name the grade, and the printed
+   *  grain (`glass-noise`) keeps the paper texture the metal used to bring. */
   const RATINGS: { grade: Grade; key: DueKey; label: string; tone: string }[] =
     [
       {
         grade: 1,
         key: "again",
         label: "Again",
-        tone: "bg-stone-950 text-white",
+        tone: "bg-black/90 text-white",
       },
       {
         grade: 2,
         key: "hard",
         label: "Hard",
-        tone: "bg-stone-900 text-white",
+        tone: "bg-black/75 text-white",
       },
       {
         grade: 3,
         key: "good",
         label: "Good",
-        tone: "bg-stone-800 text-white",
+        tone: "bg-black/60 text-white",
       },
       {
         grade: 4,
         key: "easy",
         label: "Easy",
-        tone: "bg-stone-700 text-white",
+        tone: "bg-black/45 text-white",
       },
     ];
 
@@ -432,14 +432,11 @@
 <!-- Page column. `min-h-full` rather than `h-full`, so a viewport shorter than
      the card grows and scrolls instead of centring content past the top edge.
      The medallion keeps its designed 540px (only narrow screens shrink it).
-     With cards loaded the chrome is pinned to the two edges — toolbar at the
-     top, grade row at the bottom — and the medallion takes the space between;
-     the caught-up state has no grade row, so it stays centred as a unit. -->
+     The toolbar is pinned to the top in both states; the medallion takes the
+     space between it and the grade row, or the whole rest of the page when no
+     batch is loaded. -->
 <div
-  class="flex min-h-full w-full flex-col items-center gap-3 pt-[env(safe-area-inset-top)] {cards.length >
-  0
-    ? 'justify-between'
-    : 'justify-center'}"
+  class="flex min-h-full w-full flex-col items-center gap-3 pt-[env(safe-area-inset-top)]"
   style="--width: min(92vw, 540px);"
 >
   <!-- Toolbar: the same tiles as the navbar and `/pomodoro`, on nothing but the
@@ -521,220 +518,229 @@
     </div>
   </div>
 
-  <!-- The circle is the card: word, or its translation, centred in the square. -->
-  <Circle>
-    <div class="relative h-full w-full" aria-live="polite">
-      {#if !cards.length}
-        <div
-          class="flex h-full w-full flex-col items-center justify-center gap-6 px-40 text-center"
-        >
-          <p class="font-constantine text-20 text-white/85">All caught up</p>
-          <p class="text-11 leading-snug text-slate-400">
-            Nothing is due. Type a batch size and tap the star to load more.
-          </p>
-        </div>
-      {:else if loading}
-        <div
-          class="flex h-full w-full items-center justify-center gap-8 text-white/75"
-        >
-          <IconSpinner class="size-16" aria-hidden="true" />
-          <p class="text-12">Loading the next batch…</p>
-        </div>
-      {:else if showTranslate}
-        <!-- Copied from the legacy client: the translation panel starts 90px
-             down (clear of the circle's top curve), is inset 15px, and scrolls
-             with its scrollbar hidden. Sizes are the old pixel scale. -->
-        <div
-          class="no-scrollbar relative z-3 h-full w-full overflow-y-scroll px-15 pt-90 pb-15 text-white"
-          style="text-shadow: 0 0 3px black;"
-        >
-          {#if translating}
-            <p class="text-center text-13 leading-18 font-medium">
-              Translating…
-            </p>
-          {:else if translations.length === 0}
-            <p class="text-center text-13 leading-18 font-medium">
-              No translation found.
-            </p>
-          {:else}
-            {#each translations as item, i (i)}
-              <h3
-                class="text-16 leading-24 font-extrabold italic [&:not(:first-of-type)]:mt-2.25"
-              >
-                {item.partOfSpeech}
-              </h3>
-              {#each item.translation as line, j (j)}
-                <p class="text-13 leading-18 indent-15 font-medium">
-                  {line}
-                </p>
-              {/each}
-            {/each}
-          {/if}
-        </div>
-      {:else if card}
-        <div
-          class="relative z-3 flex h-full w-full items-center justify-center text-white"
-          style="text-shadow: 0 0 3px black;"
-        >
-          {#key card.id}
-            <p
-              in:fly={reduceMotion
-                ? { duration: 0 }
-                : { y: -30, duration: 600 }}
-              class="w-full wrap-break-word text-center font-constantine text-30 font-bold uppercase leading-36"
-            >
-              {card.word}
-            </p>
-          {/key}
-
-          <p
-            class="absolute right-0 bottom-4 left-0 text-center text-11 leading-15 font-medium"
+  <!-- The circle is the card: word, or its translation, centred in the square.
+       The wrapper grows into whatever the toolbar and grade row leave, so the
+       circle is centred on the page rather than on the chrome. -->
+  <div class="flex w-full grow items-center justify-center">
+    <Circle>
+      <div class="relative h-full w-full" aria-live="polite">
+        {#if !cards.length}
+          <div
+            class="flex h-full w-full flex-col items-center justify-center gap-6 px-40 text-center"
           >
-            {card.createdLabel}
-          </p>
-        </div>
-      {/if}
-    </div>
-  </Circle>
+            <p class="font-constantine text-20 text-white/85">
+              Nothing to review yet
+            </p>
+            <p class="text-11 leading-snug text-slate-400">
+              Type a batch size and tap the star to load a batch.
+            </p>
+          </div>
+        {:else if loading}
+          <div
+            class="flex h-full w-full items-center justify-center gap-8 text-white/75"
+          >
+            <IconSpinner class="size-16" aria-hidden="true" />
+            <p class="text-12">Loading the next batch…</p>
+          </div>
+        {:else if showTranslate}
+          <!-- Copied from the legacy client: the translation panel starts 90px
+               down (clear of the circle's top curve), is inset 15px, and scrolls
+               with its scrollbar hidden. Sizes are the old pixel scale. -->
+          <div
+            class="no-scrollbar relative z-3 h-full w-full overflow-y-scroll px-15 pt-90 pb-15 text-white"
+            style="text-shadow: 0 0 3px black;"
+          >
+            {#if translating}
+              <p class="text-center text-13 leading-18 font-medium">
+                Translating…
+              </p>
+            {:else if translations.length === 0}
+              <p class="text-center text-13 leading-18 font-medium">
+                No translation found.
+              </p>
+            {:else}
+              {#each translations as item, i (i)}
+                <h3
+                  class="text-16 leading-24 font-extrabold italic [&:not(:first-of-type)]:mt-2.25"
+                >
+                  {item.partOfSpeech}
+                </h3>
+                {#each item.translation as line, j (j)}
+                  <p class="text-13 leading-18 indent-15 font-medium">
+                    {line}
+                  </p>
+                {/each}
+              {/each}
+            {/if}
+          </div>
+        {:else if card}
+          <div
+            class="relative z-3 flex h-full w-full items-center justify-center text-white"
+            style="text-shadow: 0 0 3px black;"
+          >
+            {#key card.id}
+              <p
+                in:fly={reduceMotion
+                  ? { duration: 0 }
+                  : { y: -30, duration: 600 }}
+                class="w-full wrap-break-word text-center font-constantine text-30 font-bold uppercase leading-36"
+              >
+                {card.word}
+              </p>
+            {/key}
+
+            <p
+              class="absolute right-0 bottom-4 left-0 text-center text-11 leading-15 font-medium"
+            >
+              {card.createdLabel}
+            </p>
+          </div>
+        {/if}
+      </div>
+    </Circle>
+  </div>
 
   <!-- Grades. The card turns the moment a grade is pressed and the write lands
        behind it; a refused write turns back to the answered card. The row stays
        put while the next batch loads, just disabled. A black cell per grade,
        darkest at Again, hairlines between them: no metal here either, so the
-       medallion keeps the gold. -->
-  {#if cards.length > 0}
-    <form
-      {@attach attachForm}
-      method="POST"
-      action="?/rate"
-      use:enhance={({ cancel, formData }) => {
-        // A tap that lands twice, or a key held down, can fire a second submit
-        // before the rating buttons have been disabled. Drop it here: one card,
-        // one review, one step on the day's counter.
-        if (busy) {
-          cancel();
-          return;
-        }
-
-        busy = true;
-        flashButton(Number(formData.get("grade")) as Grade);
-
-        // Turn the card now, not when the write lands. The form data above is
-        // already a snapshot, so changing `index` here cannot post the next
-        // card's id, and the answered card is put back if the write is refused.
-        sentIndex = index;
-        const lastCard = step();
-
-        return async ({ result }) => {
-          busy = false;
-
-          if (result.type === "success") {
-            if (!lastCard) return;
-
-            // The batch is spent and the server builds the next one; hold the
-            // spinner until it lands rather than the answered card.
-            try {
-              await refreshAll();
-              index = 0;
-              prefetch(cards[0]?.word);
-              prefetch(cards[1]?.word);
-            } catch {
-              // The batch never arrived: put the answered card back so the
-              // reader can try again instead of facing an empty circle.
-              index = sentIndex;
-              saveProgress(sentIndex);
+       medallion keeps the gold. The slot holds the row's height even with no
+       batch loaded, so the medallion does not move when one arrives. -->
+  <div class="flex min-h-42.5 w-full max-w-382">
+    {#if cards.length > 0}
+      <form
+        {@attach attachForm}
+        method="POST"
+        action="?/rate"
+        use:enhance={({ cancel, formData }) => {
+          // A tap that lands twice, or a key held down, can fire a second submit
+          // before the rating buttons have been disabled. Drop it here: one card,
+          // one review, one step on the day's counter.
+          if (busy) {
+            cancel();
+            return;
+          }
+  
+          busy = true;
+          flashButton(Number(formData.get("grade")) as Grade);
+  
+          // Turn the card now, not when the write lands. The form data above is
+          // already a snapshot, so changing `index` here cannot post the next
+          // card's id, and the answered card is put back if the write is refused.
+          sentIndex = index;
+          const lastCard = step();
+  
+          return async ({ result }) => {
+            busy = false;
+  
+            if (result.type === "success") {
+              if (!lastCard) return;
+  
+              // The batch is spent and the server builds the next one; hold the
+              // spinner until it lands rather than the answered card.
+              try {
+                await refreshAll();
+                index = 0;
+                prefetch(cards[0]?.word);
+                prefetch(cards[1]?.word);
+              } catch {
+                // The batch never arrived: put the answered card back so the
+                // reader can try again instead of facing an empty circle.
+                index = sentIndex;
+                saveProgress(sentIndex);
+                addToast({
+                  type: "error",
+                  title: "Could not load the next batch",
+                  message: "Please try again.",
+                });            } finally {
+                loading = false;
+              }
+              return;
+            }
+  
+            if (result.type === "redirect") {
+              await goto(result.location);
+              return;
+            }
+  
+            // Nothing was stored: turn back to the card that was answered, and
+            // put back the batch the session holds for it.
+            if (lastCard) loading = false;
+            index = sentIndex;
+            saveProgress(sentIndex);
+  
+            if (result.type === "failure") {
+              const message = (result.data as { error?: string } | undefined)
+                ?.error;
               addToast({
                 type: "error",
-                title: "Could not load the next batch",
-                message: "Please try again.",
-              });            } finally {
-              loading = false;
+                title: "Review not saved",
+                message: message ?? "Please try again.",
+              });
+            } else {
+              addToast({
+                type: "error",
+                title: "Something went wrong",
+                message: result.error?.message ?? "Please try again.",
+              });
             }
-            return;
-          }
-
-          if (result.type === "redirect") {
-            await goto(result.location);
-            return;
-          }
-
-          // Nothing was stored: turn back to the card that was answered, and
-          // put back the batch the session holds for it.
-          if (lastCard) loading = false;
-          index = sentIndex;
-          saveProgress(sentIndex);
-
-          if (result.type === "failure") {
-            const message = (result.data as { error?: string } | undefined)
-              ?.error;
-            addToast({
-              type: "error",
-              title: "Review not saved",
-              message: message ?? "Please try again.",
-            });
-          } else {
-            addToast({
-              type: "error",
-              title: "Something went wrong",
-              message: result.error?.message ?? "Please try again.",
-            });
-          }
-        };
-      }}
-      class="flex w-full max-w-382 overflow-hidden rounded-2 border border-white/10 shadow-[0_6px_20px_rgba(0,0,0,0.5)]"
-    >
-      <input type="hidden" name="id" value={card?.id ?? ""} />
-
-      <!-- The schedule counter rides the card that ends the batch's loop, so it
-           moves once per batch rather than once per card. -->
-      <input
-        type="hidden"
-        name="last"
-        value={index + 1 >= cards.length ? "1" : ""}
-      />
-
-      <div class="flex w-full">
-        {#each RATINGS as rating, i (rating.grade)}
-          <button
-            type="submit"
-            name="grade"
-            value={rating.grade}
-            disabled={busy || loading || !card}
-            aria-label="{rating.label}, next in {interval(rating.key)}"
-            class="glass-noise group relative flex h-42 flex-1 touch-manipulation flex-col items-center justify-center gap-2 px-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-emerald-300 disabled:cursor-not-allowed disabled:text-white/35 {i >
-            0
-              ? 'border-l border-white/10'
-              : ''} {rating.tone}"
-          >
-            <!-- Hover, press and key-flash feedback, on a layer of its own: a flat
-                 wash whose opacity is all that animates. The button underneath is
-                 then rasterised once — the grain is a filtered SVG, and the
-                 `scale` this replaces re-rasterised it on every frame of the
-                 transition, which is what made a tap stutter. Nothing here
-                 changes bounds either, so the row never jitters. -->
-            <span
-              aria-hidden="true"
-              class="pointer-events-none absolute inset-0 bg-white/10 opacity-0 transition-opacity duration-150 ease-out group-hover:opacity-100 group-active:opacity-100 group-disabled:opacity-0 motion-reduce:transition-none {flash ===
-              rating.grade
-                ? 'opacity-100'
-                : ''}"
-            ></span>
-
-            <span
-              class="relative font-rubik text-10 leading-12 text-white/55 tabular-nums group-disabled:text-white/20"
+          };
+        }}
+        class="flex w-full max-w-382 overflow-hidden rounded-2 border border-white/10 shadow-[0_6px_20px_rgba(0,0,0,0.5)]"
+      >
+        <input type="hidden" name="id" value={card?.id ?? ""} />
+  
+        <!-- The schedule counter rides the card that ends the batch's loop, so it
+             moves once per batch rather than once per card. -->
+        <input
+          type="hidden"
+          name="last"
+          value={index + 1 >= cards.length ? "1" : ""}
+        />
+  
+        <div class="flex w-full">
+          {#each RATINGS as rating, i (rating.grade)}
+            <button
+              type="submit"
+              name="grade"
+              value={rating.grade}
+              disabled={busy || loading || !card}
+              aria-label="{rating.label}, next in {interval(rating.key)}"
+              class="glass-noise group relative flex h-42 flex-1 touch-manipulation flex-col items-center justify-center gap-2 px-4 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-emerald-300 disabled:cursor-not-allowed disabled:text-white/35 {i >
+              0
+                ? 'border-l border-white/10'
+                : ''} {rating.tone}"
             >
-              {interval(rating.key)}
-            </span>
-            <span
-              class="relative text-14 leading-16 font-semibold tracking-[0.04em] uppercase"
-            >
-              {rating.label}
-            </span>
-          </button>
-        {/each}
-      </div>
-    </form>
-  {/if}
+              <!-- Hover, press and key-flash feedback, on a layer of its own: a flat
+                   wash whose opacity is all that animates. The button underneath is
+                   then rasterised once — the grain is a filtered SVG, and the
+                   `scale` this replaces re-rasterised it on every frame of the
+                   transition, which is what made a tap stutter. Nothing here
+                   changes bounds either, so the row never jitters. -->
+              <span
+                aria-hidden="true"
+                class="pointer-events-none absolute inset-0 bg-white/10 opacity-0 transition-opacity duration-150 ease-out group-hover:opacity-100 group-active:opacity-100 group-disabled:opacity-0 motion-reduce:transition-none {flash ===
+                rating.grade
+                  ? 'opacity-100'
+                  : ''}"
+              ></span>
+  
+              <span
+                class="relative font-rubik text-10 leading-12 text-white/55 tabular-nums group-disabled:text-white/20"
+              >
+                {interval(rating.key)}
+              </span>
+              <span
+                class="relative text-14 leading-16 font-semibold tracking-[0.04em] uppercase"
+              >
+                {rating.label}
+              </span>
+            </button>
+          {/each}
+        </div>
+      </form>
+    {/if}
+  </div>
 </div>
 
 <AddWord bind:showModal={showAdd} />

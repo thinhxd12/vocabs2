@@ -46,7 +46,7 @@ const SCHEDULER_PARAMS: Partial<FSRSParameters> = {
 };
 
 /** Cards pulled per batch, and the bounds the ?n= input is clamped to. */
-const DEFAULT_BATCH = 12;
+const DEFAULT_BATCH = 9;
 const MIN_BATCH = 1;
 const MAX_BATCH = 99;
 
@@ -284,10 +284,11 @@ export const load: PageServerLoad = async ({ url, locals, cookies }) => {
 
   // A batch in progress is resumed from the session cookie the client wrote
   // (`#lib/review-session.ts`). Asking for a *new* batch is the client's call:
-  // the size control drops the cookie before it navigates, so this load finds
-  // none. That keeps a plain reload of `?n=…` — no new batch asked for — on the
-  // batch the reader is in, rather than starting over.
+  // the star's form drops the cookie before it navigates, so this load finds
+  // none. A plain reload of `?n=…` — no new batch asked for — stays on the batch
+  // the reader is in, rather than starting over.
   const session = decodeSession(cookies.get(SESSION_COOKIE));
+  const batch = clampBatch(Number(url.searchParams.get("n") ?? DEFAULT_BATCH));
 
   if (session) {
     const cards = await restoreQueue(locals.supabase, scheduler, now, session.ids);
@@ -303,11 +304,16 @@ export const load: PageServerLoad = async ({ url, locals, cookies }) => {
     }
 
     // Every queued card is gone or already scheduled ahead: nothing is left of
-    // that batch, so drop the cookie and build a fresh one.
+    // that batch, so drop the cookie. A fresh one is built only if `?n=` asked
+    // for it (below).
     cookies.delete(SESSION_COOKIE, { path: "/" });
   }
 
-  const batch = clampBatch(Number(url.searchParams.get("n") ?? DEFAULT_BATCH));
+  // A batch is built only when the star asks for one (`?n=…`). Arriving from
+  // the navbar loads nothing — building the queue is the page's slow part.
+  if (!url.searchParams.has("n")) {
+    return { cards: [], batch, graded: 0, previewedAt };
+  }
 
   // `previewedAt` is the instant every preview in this batch was built from, and
   // the client measures its grading labels against it rather than against its
