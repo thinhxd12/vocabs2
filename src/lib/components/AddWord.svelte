@@ -3,7 +3,6 @@
   import { invalidate } from "$app/navigation";
   import { format } from "date-fns";
   import Modal from "#lib/components/Modal.svelte";
-  import { addToast } from "#lib/store/toast.svelte.ts";
   import IconMagnifyingGlass from "~icons/ph/magnifying-glass";
   import IconSpinner from "~icons/svg-spinners/ring-resize";
   import IconX from "~icons/ph/x";
@@ -217,11 +216,6 @@
                 // The navbar's memories tile counts `memories_table`; the new
                 // row is already in it.
                 void invalidate("app:memories").catch(() => {});
-                addToast({
-                  type: "success",
-                  title: `“${check?.word ?? query}” added`,
-                  message: "It joins a future review batch.",
-                });
                 showModal = false;
                 return;
               }

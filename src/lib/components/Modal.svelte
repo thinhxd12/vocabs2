@@ -64,9 +64,11 @@
     overflow: visible;
   }
 
+  /* No backdrop-filter: it re-blurs the whole viewport every frame while the
+     layout wallpaper video, the navbar weather video/marquee or the 3D book
+     repaint, which pins a CPU core. The dim alone separates the dialog. */
   dialog::backdrop {
-    background-color: rgb(0 0 0 / 0.3);
-    backdrop-filter: blur(6px);
+    background-color: rgb(0 0 0 / 0.45);
   }
 
   /* Sit above the fixed navbar instead of centering in the full viewport. */

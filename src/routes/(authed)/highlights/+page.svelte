@@ -43,6 +43,10 @@
     "flex size-36 shrink-0 cursor-pointer items-center justify-center rounded-2 text-slate-200 transition-colors hover:bg-white/15 hover:text-white focus-visible:outline-2 focus-visible:outline-emerald-300";
   const FIELD =
     "w-full rounded-2 border border-slate-300 bg-white px-12 py-8 text-14 text-black outline-hidden transition-colors placeholder:text-black/50 focus-visible:border-emerald-600 focus-visible:ring-1 focus-visible:ring-emerald-600/30";
+  /** Edit-dialog inputs sit in a dense column, so they use the app's compact
+   *  field height (same as the dashboard) instead of the roomy import field. */
+  const EDIT_FIELD =
+    "h-32 w-full rounded-2 border border-slate-300 bg-white px-10 text-12 text-black outline-hidden transition-colors placeholder:text-black/50 focus-visible:border-emerald-600 focus-visible:ring-1 focus-visible:ring-emerald-600/30";
   const LABEL = "mb-6 block text-12 font-medium text-black/70";
 
   // Seeded from the server load, then owned locally while the reader flips
@@ -1034,7 +1038,7 @@
               type="text"
               name="bookTile"
               autocomplete="off"
-              class={FIELD}
+              class={EDIT_FIELD}
               bind:value={highlightEdit.bookTile}
             />
           </label>
@@ -1045,7 +1049,7 @@
               type="text"
               name="authors"
               autocomplete="off"
-              class={FIELD}
+              class={EDIT_FIELD}
               bind:value={highlightEdit.authors}
             />
           </label>
@@ -1056,7 +1060,7 @@
               type="text"
               name="dateOfCreation"
               autocomplete="off"
-              class={FIELD}
+              class={EDIT_FIELD}
               bind:value={highlightEdit.dateOfCreation}
             />
           </label>
@@ -1067,7 +1071,7 @@
               type="number"
               name="like"
               min="0"
-              class={FIELD}
+              class={EDIT_FIELD}
               bind:value={highlightEdit.like}
             />
           </label>
@@ -1099,13 +1103,13 @@
           <button
             type="submit"
             disabled={isSubmitting}
-            class="h-30 cursor-pointer rounded-2 bg-emerald-600 px-16 text-12 font-semibold text-white transition-colors hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+            class="h-28 cursor-pointer rounded-2 bg-emerald-600 px-14 text-12 font-semibold text-white transition-colors hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
           >
             {isSubmitting ? "Saving…" : "Save"}
           </button>
           <button
             type="button"
-            class="h-30 cursor-pointer rounded-2 px-12 text-12 font-medium text-black/70 transition-colors hover:bg-slate-100 hover:text-black"
+            class="h-28 cursor-pointer rounded-2 px-12 text-12 font-medium text-black/70 transition-colors hover:bg-slate-100 hover:text-black"
             onclick={() => (showEdit = false)}
           >
             Cancel
