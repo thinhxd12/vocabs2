@@ -91,6 +91,9 @@
   let index = $state(0);
   const card = $derived(cards[index] ?? null);
 
+  /** The word split into letters, the unit typing colours one at a time. */
+  const letters = $derived(card ? [...card.word] : []);
+
   /** How far into the batch the reader is: the cards already graded. Parked at
    *  the end while the next batch loads, which reads as a full bar. */
   const learned = $derived(Math.min(graded + index, total));
@@ -111,6 +114,9 @@
   let showTranslate = $state(false);
   let translations = $state<Translation[]>([]);
   let translating = $state(false);
+
+  /** Letters of the current word typed so far: they render green. */
+  let typed = $state(0);
 
   /** The "add a word" dialog, opened from the toolbar. While it is open the
    *  review shortcuts must stand down — the dialog is the only surface. */
@@ -180,6 +186,7 @@
     showTranslate = false;
     translations = [];
     translating = false;
+    typed = 0;
     translateRequest += 1;
   }
 
@@ -343,6 +350,23 @@
       ?.click();
   }
 
+  /** Types one key against the word: a match turns the letter green, a miss
+   *  starts the word again, and the last letter opens the translation. */
+  function typeChar(key: string) {
+    if (typed >= letters.length) return;
+
+    if (key.toLowerCase() !== letters[typed].toLowerCase()) {
+      typed = 0;
+      return;
+    }
+
+    typed += 1;
+    if (typed === letters.length) {
+      void toggleTranslate();
+      playSpeech();
+    }
+  }
+
   function onKeyDown(event: KeyboardEvent) {
     if (event.ctrlKey || event.altKey || event.shiftKey || event.metaKey)
       return;
@@ -355,9 +379,28 @@
     if (target?.closest("input, textarea, [contenteditable='true']")) return;
 
     if (event.key === " ") {
+      // A space inside a multi-word card is typed, not the translate shortcut.
+      if (typed > 0 && letters[typed] === " ") {
+        event.preventDefault();
+        typeChar(" ");
+        return;
+      }
+
       event.preventDefault();
       toggleTranslate();
       if (showTranslate) playSpeech();
+      return;
+    }
+
+    // Letters go to the word, unless the translation is already open. Digits
+    // 1–4 stay the rating shortcuts.
+    if (
+      !showTranslate &&
+      event.key.length === 1 &&
+      !/^[1-4]$/.test(event.key)
+    ) {
+      event.preventDefault();
+      typeChar(event.key);
       return;
     }
 
@@ -585,7 +628,9 @@
                   : { y: -30, duration: 600 }}
                 class="w-full wrap-break-word text-center font-constantine text-30 font-bold uppercase leading-36"
               >
-                {card.word}
+                {#each letters as letter, i (i)}<span
+                    class={i < typed ? "text-green-300" : ""}>{letter}</span
+                  >{/each}
               </p>
             {/key}
 
@@ -620,22 +665,22 @@
             cancel();
             return;
           }
-  
+
           busy = true;
           flashButton(Number(formData.get("grade")) as Grade);
-  
+
           // Turn the card now, not when the write lands. The form data above is
           // already a snapshot, so changing `index` here cannot post the next
           // card's id, and the answered card is put back if the write is refused.
           sentIndex = index;
           const lastCard = step();
-  
+
           return async ({ result }) => {
             busy = false;
-  
+
             if (result.type === "success") {
               if (!lastCard) return;
-  
+
               // The batch is spent and the server builds the next one; hold the
               // spinner until it lands rather than the answered card.
               try {
@@ -652,23 +697,24 @@
                   type: "error",
                   title: "Could not load the next batch",
                   message: "Please try again.",
-                });            } finally {
+                });
+              } finally {
                 loading = false;
               }
               return;
             }
-  
+
             if (result.type === "redirect") {
               await goto(result.location);
               return;
             }
-  
+
             // Nothing was stored: turn back to the card that was answered, and
             // put back the batch the session holds for it.
             if (lastCard) loading = false;
             index = sentIndex;
             saveProgress(sentIndex);
-  
+
             if (result.type === "failure") {
               const message = (result.data as { error?: string } | undefined)
                 ?.error;
@@ -689,7 +735,7 @@
         class="flex w-full max-w-382 overflow-hidden rounded-2 border border-white/10 shadow-[0_6px_20px_rgba(0,0,0,0.5)]"
       >
         <input type="hidden" name="id" value={card?.id ?? ""} />
-  
+
         <!-- The schedule counter rides the card that ends the batch's loop, so it
              moves once per batch rather than once per card. -->
         <input
@@ -697,7 +743,7 @@
           name="last"
           value={index + 1 >= cards.length ? "1" : ""}
         />
-  
+
         <div class="flex w-full">
           {#each RATINGS as rating, i (rating.grade)}
             <button
@@ -724,7 +770,7 @@
                   ? 'opacity-100'
                   : ''}"
               ></span>
-  
+
               <span
                 class="relative font-rubik text-10 leading-12 text-white/55 tabular-nums group-disabled:text-white/20"
               >
