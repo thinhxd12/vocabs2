@@ -1,6 +1,6 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
-  import { afterNavigate, goto, refreshAll } from "$app/navigation";
+  import { afterNavigate, goto } from "$app/navigation";
   import { navigating, page as current } from "$app/state";
   import { differenceInHours, differenceInMinutes } from "date-fns";
   import { onDestroy, onMount, untrack } from "svelte";
@@ -411,6 +411,33 @@
     }
   }
 
+  /** Asks for the batch the form holds, in the app rather than as a new
+   *  document: the star is a GET form, which SvelteKit does not enhance, so a
+   *  plain submit rebuilds the whole shell — worker, wallpaper, the layout's
+   *  own reads — for a page whose data alone changed. Without JS the form still
+   *  submits natively. */
+  function startBatch(event: SubmitEvent) {
+    event.preventDefault();
+    clearSession();
+
+    // The form is the source of truth, so the URL is the one it would have
+    // submitted, the old query replaced as a GET would. `refreshAll` makes a
+    // second request with the same `n` rebuild instead of reusing the last load.
+    const form = event.currentTarget as HTMLFormElement;
+    const params = new URLSearchParams();
+    for (const [key, value] of new FormData(form)) {
+      params.append(key, String(value));
+    }
+
+    goto(`?${params}`, { refreshAll: true }).catch(() => {
+      addToast({
+        type: "error",
+        title: "Could not start a batch",
+        message: "Please try again.",
+      });
+    });
+  }
+
   function onBatchInput(event: Event) {
     const input = event.currentTarget as HTMLInputElement;
     if (input.value === "") return;
@@ -487,10 +514,10 @@
        left empty. -->
   <div class="mt-2 flex w-full max-w-382 items-center justify-between gap-3">
     <!-- A new batch is asked for here, so the batch in progress is forgotten
-         before the GET runs: its session cookie is what the page server would
-         otherwise resume. `clearSession` runs on the form's own submit, ahead
-         of SvelteKit's handler. -->
-    <form method="GET" class="flex items-center gap-3" onsubmit={clearSession}>
+         before the request runs: its session cookie is what the page server
+         would otherwise resume. `startBatch` clears it first, then makes the
+         same request in the app instead of as a new document. -->
+    <form method="GET" class="flex items-center gap-3" onsubmit={startBatch}>
       <button
         type="submit"
         disabled={starting}
@@ -682,9 +709,15 @@
               if (!lastCard) return;
 
               // The batch is spent and the server builds the next one; hold the
-              // spinner until it lands rather than the answered card.
+              // spinner until it lands rather than the answered card. The URL is
+              // asked for explicitly (`n`), so the next batch loads even when
+              // this one was resumed from a bare `/fsrs` — the URL a navbar
+              // visit leaves behind, which a plain refresh would load empty.
               try {
-                await refreshAll();
+                await goto(`?n=${data.batch}`, {
+                  refreshAll: true,
+                  replace: true,
+                });
                 index = 0;
                 prefetch(cards[0]?.word);
                 prefetch(cards[1]?.word);

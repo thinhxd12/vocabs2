@@ -8,8 +8,6 @@
   import { BTN, BTN_ON } from "#lib/ui/button.ts";
   import { onDestroy, onMount } from "svelte";
   import IconMoon from "~icons/ph/moon";
-  import IconPauseFill from "~icons/ph/pause-fill";
-  import IconPlayFill from "~icons/ph/play-fill";
   import IconSpinner from "~icons/svg-spinners/ring-resize";
   import IconSun from "~icons/ph/sun";
   import IconTarget from "~icons/ph/target";
@@ -526,22 +524,39 @@
           style="filter: grayscale({percent / 100});"
         />
 
+        <!-- A soft centre veil: the timer is white on the painting, and the
+             three artworks range from a dark sky to a bright riverbank. A
+             gradient rather than a disc, so it reads as shade, not a button. -->
+        <span
+          aria-hidden="true"
+          class="pointer-events-none absolute inset-0 z-10 bg-radial from-black/45 via-black/15 to-transparent"
+        ></span>
+
         <button
           type="button"
           onclick={toggleTimer}
           aria-label={timerLabel}
-          class="group absolute inset-0 z-20 flex cursor-pointer touch-manipulation items-center justify-center -outline-offset-6 focus-visible:outline-2 focus-visible:outline-emerald-300"
+          class="absolute inset-0 z-20 flex cursor-pointer touch-manipulation items-center justify-center -outline-offset-6 focus-visible:outline-2 focus-visible:outline-emerald-300"
         >
-          <!-- Nothing on the artwork until the reader reaches for it: the image
-               is the point, and the control is one click away on hover. -->
+          <!-- The timer is the control: the mode (or the held state) over the
+               time. The number never leaves, so the circle never empties. -->
           <span
-            class="flex size-72 items-center justify-center rounded-full border border-white/25 bg-slate-950/45 text-white opacity-0 backdrop-blur-sm transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100 group-active:opacity-100 motion-reduce:transition-none"
+            aria-hidden="true"
+            class="pointer-events-none flex select-none flex-col items-center gap-6"
+            style="text-shadow: 0 0 2px rgba(0, 0, 0, 0.85), 0 0 16px rgba(0, 0, 0, 0.5);"
           >
-            {#if pomodoro.isPaused}
-              <IconPlayFill class="size-30" aria-hidden="true" />
-            {:else}
-              <IconPauseFill class="size-30" aria-hidden="true" />
-            {/if}
+            <span
+              class="font-rubik text-11 leading-none font-normal uppercase tracking-[0.3em] text-white/80"
+            >
+              {pomodoro.isPaused ? "Paused" : modeLabel}
+            </span>
+            <span
+              class="font-rubik text-40 leading-none font-light tabular-nums text-white transition-opacity duration-200 motion-reduce:transition-none {pomodoro.isPaused
+                ? 'opacity-60'
+                : ''}"
+            >
+              {timeText}
+            </span>
           </span>
         </button>
 

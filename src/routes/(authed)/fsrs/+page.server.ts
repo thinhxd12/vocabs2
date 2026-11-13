@@ -284,9 +284,9 @@ export const load: PageServerLoad = async ({ url, locals, cookies }) => {
 
   // A batch in progress is resumed from the session cookie the client wrote
   // (`#lib/review-session.ts`). Asking for a *new* batch is the client's call:
-  // the star's form drops the cookie before it navigates, so this load finds
-  // none. A plain reload of `?n=…` — no new batch asked for — stays on the batch
-  // the reader is in, rather than starting over.
+  // it drops the cookie before it navigates, so this load finds none. A plain
+  // reload of `?n=…` — no new batch asked for — stays on the batch the reader
+  // is in, rather than starting over.
   const session = decodeSession(cookies.get(SESSION_COOKIE));
   const batch = clampBatch(Number(url.searchParams.get("n") ?? DEFAULT_BATCH));
 
@@ -309,8 +309,9 @@ export const load: PageServerLoad = async ({ url, locals, cookies }) => {
     cookies.delete(SESSION_COOKIE, { path: "/" });
   }
 
-  // A batch is built only when the star asks for one (`?n=…`). Arriving from
-  // the navbar loads nothing — building the queue is the page's slow part.
+  // A batch is built only when asked for (`?n=…`) — the star, or the reviewer
+  // asking for the next one when a batch runs out. Arriving from the navbar
+  // loads nothing — building the queue is the page's slow part.
   if (!url.searchParams.has("n")) {
     return { cards: [], batch, graded: 0, previewedAt };
   }
