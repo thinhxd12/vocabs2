@@ -524,14 +524,6 @@
           style="filter: grayscale({percent / 100});"
         />
 
-        <!-- A soft centre veil: the timer is white on the painting, and the
-             three artworks range from a dark sky to a bright riverbank. A
-             gradient rather than a disc, so it reads as shade, not a button. -->
-        <span
-          aria-hidden="true"
-          class="pointer-events-none absolute inset-0 z-10 bg-radial from-black/45 via-black/15 to-transparent"
-        ></span>
-
         <button
           type="button"
           onclick={toggleTimer}
@@ -543,7 +535,7 @@
           <span
             aria-hidden="true"
             class="pointer-events-none flex select-none flex-col items-center gap-6"
-            style="text-shadow: 0 0 2px rgba(0, 0, 0, 0.85), 0 0 16px rgba(0, 0, 0, 0.5);"
+            style="text-shadow: 0 0 3px rgba(0, 0, 0, 0.85), 0 0 16px rgba(0, 0, 0, 0.5);"
           >
             <span
               class="font-rubik text-11 leading-none font-normal uppercase tracking-[0.3em] text-white/80"
