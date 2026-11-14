@@ -63,7 +63,7 @@ type MemoryRow = {
   elapsed_days: number | string;
   lapses: number | string;
   learning_steps: number | string;
-  reps: number | string;
+  reps: number | string | null;
   scheduled_days: number | string;
   stability: number | string;
   state: number | string;
@@ -196,9 +196,10 @@ function toReviewCard(
 }
 
 /**
- * Builds a batch: every card due now, topped up with brand-new cards so a light
- * day still fills the session. This mirrors the order the old client used —
- * overdue first (earliest due), then unseen cards, newest first.
+ * Builds a batch: cards in their learning steps first, then the earliest due
+ * reviews, topped up with unseen cards so a light day still fills the session.
+ * Unseen cards are oldest first, so a steady stream of additions cannot starve
+ * the words added before them.
  */
 async function buildQueue(
   supabase: SupabaseClient,
@@ -206,6 +207,19 @@ async function buildQueue(
   now: Date,
   limit: number,
 ) {
+  // Anki's gather order: a card in its 9m learning step is not buried behind a
+  // backlog of overdue reviews.
+  const { data: learning, error: learningError } = await supabase
+    .from("memories_table")
+    .select("*")
+    .order("due", { ascending: true })
+    .lte("due", now.getTime())
+    .gt("due", 0)
+    .in("state", [1, 3])
+    .limit(limit);
+
+  if (learningError) error(500, "Could not load cards to review.");
+
   const { data: due, error: dueError } = await supabase
     .from("memories_table")
     .select("*")
@@ -216,15 +230,22 @@ async function buildQueue(
 
   if (dueError) error(500, "Could not load cards to review.");
 
-  const rows = (due ?? []) as MemoryRow[];
+  // The due query also returns the learning cards, so they are dropped before
+  // the batch is cut to size.
+  const learningRows = (learning ?? []) as MemoryRow[];
+  const seen = new Set(learningRows.map((row) => row.id));
+  const rows = [
+    ...learningRows,
+    ...((due ?? []) as MemoryRow[]).filter((row) => !seen.has(row.id)),
+  ].slice(0, limit);
   let queue = rows;
 
   if (rows.length < limit) {
     const { data: fresh, error: freshError } = await supabase
       .from("memories_table")
       .select("*")
-      .order("created_at", { ascending: false })
-      .eq("due", 0)
+      .order("created_at", { ascending: true, nullsFirst: true })
+      .or("due.eq.0,due.is.null")
       .limit(limit - rows.length);
 
     if (freshError) error(500, "Could not load new cards.");
@@ -365,7 +386,9 @@ export const actions: Actions = {
       grade as Grade,
     );
 
-    const storedReps = Number(row.reps);
+    // `reps` is the card's own counter; a NULL one has never been graded, and
+    // `reps = 0` does not match NULL in SQL.
+    const storedReps = row.reps === null ? null : Number(row.reps);
 
     // One review, one write. The row only moves if it is still where it was read
     // (`reps` is the card's own counter), so a repeat submit that slipped past
@@ -387,16 +410,21 @@ export const actions: Actions = {
       })
       .eq("id", id);
 
-    const { data: graded, error: writeError } = await (
-      Number.isFinite(storedReps) ? review.eq("reps", storedReps) : review
-    ).select("id");
+    const guarded =
+      storedReps === null
+        ? review.is("reps", null)
+        : Number.isFinite(storedReps)
+          ? review.eq("reps", storedReps)
+          : review;
+
+    const { data: graded, error: writeError } = await guarded.select("id");
 
     if (writeError)
       return fail(500, { ...state, error: "Could not save the review." });
 
     // Already graded by the twin of this request: report success so the client
     // moves on, but leave the schedule counter alone.
-    if (Number.isFinite(storedReps) && !graded?.length) return { ...state };
+    if (!graded?.length) return { ...state };
 
     // A batch is what the day's schedule counts, so the counter moves once the
     // batch's loop ends — on the card the client flags as the last one — rather
@@ -412,7 +440,7 @@ export const actions: Actions = {
    * The panel refuses a word the list already holds, but this is the
    * authoritative pass: the list can have changed since that check. `due: 0` is
    * what marks a row as unseen — `buildQueue` tops a batch up with exactly
-   * those, newest first — so the new word shows up in a future session, not
+   * those, oldest first — so the new word shows up in a future session, not
    * this one.
    */
   addWord: async ({ request, locals }) => {

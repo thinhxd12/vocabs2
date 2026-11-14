@@ -598,10 +598,10 @@
           <div
             class="flex h-full w-full flex-col items-center justify-center gap-6 px-40 text-center"
           >
-            <p class="font-constantine text-20 text-white/85">
+            <p class="font-constantine text-20 text-white">
               Nothing to review yet
             </p>
-            <p class="text-11 leading-snug text-slate-400">
+            <p class="text-11 leading-15 text-white/60">
               Type a batch size and tap the star to load a batch.
             </p>
           </div>
